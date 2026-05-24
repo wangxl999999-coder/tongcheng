@@ -1,0 +1,103 @@
+<view class="container">
+  <view class="tabs">
+    <view 
+      wx:for="{{tabs}}" 
+      wx:key="*this"
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      bindtap="onTabTap"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </view>
+
+  <view class="package-list">
+    <view 
+      wx:for="{{packages}}" 
+      wx:key="id"
+      class="package-item {{item.status !== 1 ? 'disabled' : ''}}"
+      bindtap="onShowDetail"
+      data-pkg="{{item}}"
+    >
+      <view class="package-cover">
+        <image src="{{item.cover}}" mode="aspectFill"></image>
+        <view class="package-times">
+          <text class="remaining">{{item.remaining_times}}</text>
+          <text class="total">/{{item.total_times}}次</text>
+        </view>
+      </view>
+      <view class="package-info">
+        <view class="package-name">{{item.name}}</view>
+        <view class="package-service">{{item.service_name}}</view>
+        <view class="package-meta">
+          <text class="price">¥{{item.price}}</text>
+          <text class="validity">有效期至 {{item.end_time * 1000}}</text>
+        </view>
+      </view>
+      <view class="package-action" catchtap="onUsePackage" data-pkg="{{item}}" wx:if="{{item.status === 1}}">
+        <text>立即使用</text>
+      </view>
+      <view class="package-status" wx:elif="{{item.status === 2}}">已用完</view>
+      <view class="package-status" wx:else>已过期</view>
+    </view>
+
+    <view class="empty" wx:if="{{packages.length === 0 && !loading}}">
+      <image src="/images/empty-package.png" class="empty-icon"></image>
+      <text class="empty-text">暂无套餐卡</text>
+    </view>
+
+    <view class="load-more" wx:if="{{!hasMore && packages.length > 0}}">
+      <text>- 没有更多了 -</text>
+    </view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{showDetail}}" bindtap="hideDetail"></view>
+  <view class="detail-popup" wx:if="{{showDetail && currentPackage}}">
+    <view class="popup-header">
+      <text class="popup-title">套餐详情</text>
+      <view class="popup-close" bindtap="hideDetail">×</view>
+    </view>
+    <scroll-view class="popup-content" scroll-y="{{true}}">
+      <image class="detail-cover" src="{{currentPackage.cover}}" mode="aspectFill"></image>
+      <view class="detail-info">
+        <view class="detail-name">{{currentPackage.name}}</view>
+        <view class="detail-price">
+          <text class="price">¥{{currentPackage.price}}</text>
+          <text class="times">{{currentPackage.total_times}}次</text>
+        </view>
+        <view class="detail-progress">
+          <text>已使用 {{currentPackage.used_times}} 次</text>
+          <text>剩余 {{currentPackage.remaining_times}} 次</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{(currentPackage.used_times / currentPackage.total_times) * 100}}%"></view>
+        </view>
+        
+        <view class="detail-section">
+          <view class="section-title">套餐内容</view>
+          <view class="section-content">{{currentPackage.service_name}}</view>
+        </view>
+
+        <view class="detail-section">
+          <view class="section-title">使用说明</view>
+          <view class="section-content">{{currentPackage.desc || '每次使用核销一次，不找零，不兑现'}}</view>
+        </view>
+
+        <view class="detail-section">
+          <view class="section-title">有效期</view>
+          <view class="section-content">{{currentPackage.start_time * 1000}} 至 {{currentPackage.end_time * 1000}}</view>
+        </view>
+
+        <view class="detail-section">
+          <view class="section-title">购买时间</view>
+          <view class="section-content">{{currentPackage.created_at * 1000}}</view>
+        </view>
+
+        <view class="detail-actions" wx:if="{{currentPackage.status === 1 && currentPackage.remaining_times > 0}}">
+          <view class="btn btn-outline" bindtap="onRefund" data-pkg="{{currentPackage}}">申请退款</view>
+          <view class="btn btn-primary" bindtap="onUsePackage" data-pkg="{{currentPackage}}">立即使用</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

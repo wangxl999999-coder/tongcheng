@@ -1,0 +1,216 @@
+<view class="container">
+  <view class="header">
+    <view class="location-bar">
+      <view class="location" bindtap="onChooseCity">
+        <image src="/images/location.png" class="location-icon"></image>
+        <text class="city-name">{{cityName}}</text>
+        <image src="/images/arrow-down.png" class="arrow-icon"></image>
+      </view>
+      <view class="search-bar" bindtap="onSearch">
+        <image src="/images/search.png" class="search-icon"></image>
+        <input 
+          class="search-input" 
+          placeholder="搜索服务项目" 
+          placeholder-class="search-placeholder"
+          value="{{keyword}}"
+          bindinput="onKeywordInput"
+          bindconfirm="onSearchConfirm"
+          confirm-type="search"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="banner-section" wx:if="{{banners.length > 0}}">
+      <swiper 
+        class="banner-swiper" 
+        indicator-dots="{{false}}" 
+        autoplay="{{true}}" 
+        circular="{{true}}"
+        interval="4000"
+        bindchange="onBannerChange"
+      >
+        <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-banner="{{item}}">
+          <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
+      <view class="banner-dots">
+        <view 
+          wx:for="{{banners}}" 
+          wx:key="id"
+          class="swiper-dot {{index === currentBanner ? 'active' : ''}}"
+        ></view>
+      </view>
+    </view>
+
+    <view class="notice-section" wx:if="{{notices.length > 0}}">
+      <view class="notice-bar">
+        <image src="/images/notice.png" class="notice-icon"></image>
+        <swiper class="notice-swiper" vertical="{{true}}" autoplay="{{true}}" circular="{{true}}" interval="3000">
+          <swiper-item wx:for="{{notices}}" wx:key="id" bindtap="onNoticeTap" data-notice="{{item}}">
+            <text class="notice-text">{{item.title}}</text>
+          </swiper-item>
+        </swiper>
+        <view class="notice-more" bindtap="onMoreNotice">更多</view>
+      </view>
+    </view>
+
+    <view class="category-section card">
+      <view class="section-header">
+        <text class="section-title">服务分类</text>
+      </view>
+      <view class="category-grid">
+        <view 
+          class="category-item" 
+          wx:for="{{categories}}" 
+          wx:key="id" 
+          bindtap="onCategoryTap" 
+          data-category="{{item}}"
+        >
+          <image class="category-icon" src="{{item.icon}}" mode="aspectFit"></image>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="quick-section card">
+      <view class="quick-grid">
+        <view class="quick-item" bindtap="onGrabOrder">
+          <view class="quick-icon icon-grab"></view>
+          <text class="quick-text">抢单大厅</text>
+          <view class="quick-tag">热门</view>
+        </view>
+        <view class="quick-item" bindtap="onQuickOrder">
+          <view class="quick-icon icon-quick"></view>
+          <text class="quick-text">快速下单</text>
+          <view class="quick-tag">推荐</view>
+        </view>
+        <view class="quick-item">
+          <view class="quick-icon icon-coupon"></view>
+          <text class="quick-text">领券中心</text>
+        </view>
+        <view class="quick-item">
+          <view class="quick-icon icon-member"></view>
+          <text class="quick-text">会员中心</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="service-section card" wx:if="{{hotServices.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">🔥 热门服务</text>
+        <view class="section-more" bindtap="onMoreService" data-type="hot">
+          <text>更多</text>
+          <image src="/images/arrow-right.png" class="arrow-right"></image>
+        </view>
+      </view>
+      <view class="service-list">
+        <view 
+          class="service-item" 
+          wx:for="{{hotServices}}" 
+          wx:key="id" 
+          bindtap="onServiceTap" 
+          data-service="{{item}}"
+        >
+          <image class="service-cover" src="{{item.cover}}" mode="aspectFill"></image>
+          <view class="service-info">
+            <view class="service-name text-ellipsis">{{item.name}}</view>
+            <view class="service-desc text-ellipsis">{{item.desc || item.category_name}}</view>
+            <view class="service-meta">
+              <text class="service-duration">⏱ {{item.duration}}分钟</text>
+              <text class="service-sales">已售 {{item.sales || 0}}</text>
+            </view>
+            <view class="service-price">
+              <text class="price">¥{{item.price}}</text>
+              <text class="old-price" wx:if="{{item.market_price}}">¥{{item.market_price}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="service-section card" wx:if="{{recommendServices.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">💎 为你推荐</text>
+        <view class="section-more" bindtap="onMoreService" data-type="recommend">
+          <text>更多</text>
+          <image src="/images/arrow-right.png" class="arrow-right"></image>
+        </view>
+      </view>
+      <scroll-view class="recommend-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+        <view class="recommend-list">
+          <view 
+            class="recommend-item" 
+            wx:for="{{recommendServices}}" 
+            wx:key="id" 
+            bindtap="onServiceTap" 
+            data-service="{{item}}"
+          >
+            <image class="recommend-cover" src="{{item.cover}}" mode="aspectFill"></image>
+            <view class="recommend-info">
+              <view class="recommend-name text-ellipsis">{{item.name}}</view>
+              <view class="recommend-price">
+                <text class="price">¥{{item.price}}</text>
+                <text class="recommend-sales">月销{{item.sales || 0}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="technician-section card" wx:if="{{nearbyTechnicians.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">📍 附近技师</text>
+        <view class="section-more" bindtap="onMoreTechnician">
+          <text>更多</text>
+          <image src="/images/arrow-right.png" class="arrow-right"></image>
+        </view>
+      </view>
+      <view class="technician-list">
+        <view 
+          class="technician-item" 
+          wx:for="{{nearbyTechnicians}}" 
+          wx:key="id" 
+          bindtap="onTechnicianTap" 
+          data-technician="{{item}}"
+        >
+          <image class="technician-avatar" src="{{item.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+          <view class="technician-info">
+            <view class="technician-top">
+              <text class="technician-name">{{item.name}}</text>
+              <text class="technician-distance">{{item.distance > 0 ? (item.distance < 1 ? item.distance * 1000 + 'm' : item.distance.toFixed(2) + 'km') : ''}}</text>
+            </view>
+            <view class="technician-skills text-ellipsis">{{item.skills || '专业服务'}}</view>
+            <view class="technician-meta">
+              <view class="technician-rating">
+                <image src="/images/star-active.png" class="star-icon"></image>
+                <text>{{item.rating || '5.0'}}</text>
+              </view>
+              <text class="technician-orders">接单{{item.order_count || 0}}</text>
+            </view>
+          </view>
+          <view class="technician-btn" bindtap="onQuickBook" data-technician="{{item}}">预约</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{showPopup}}" bindtap="onPopupClose"></view>
+  <view class="popup-box" wx:if="{{showPopup}}">
+    <view class="popup-close" bindtap="onPopupClose">×</view>
+    <image 
+      class="popup-image" 
+      src="{{popup.image}}" 
+      mode="aspectFit" 
+      bindtap="onPopupTap"
+      wx:if="{{popup.type === 1}}"
+    ></image>
+    <view class="popup-content" wx:if="{{popup.type === 2}}">
+      <view class="popup-title">{{popup.title}}</view>
+      <view class="popup-text">{{popup.content}}</view>
+      <view class="popup-btn" bindtap="onPopupTap">{{popup.button_text || '我知道了'}}</view>
+    </view>
+  </view>
+</view>

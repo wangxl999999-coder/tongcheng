@@ -1,0 +1,390 @@
+.container {
+  padding-bottom: 140rpx;
+}
+
+.status-section {
+  padding: 40rpx 24rpx;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.status-icon {
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 40rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.status-text {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.timeline-title,
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.timeline-list {
+  position: relative;
+  padding-left: 30rpx;
+}
+
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  left: 8rpx;
+  top: 16rpx;
+  bottom: 16rpx;
+  width: 2rpx;
+  background: #eee;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 24rpx;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -24rpx;
+  top: 8rpx;
+  width: 16rpx;
+  height: 16rpx;
+  background: #ddd;
+  border-radius: 50%;
+  border: 4rpx solid #fff;
+  box-shadow: 0 0 0 2rpx #ddd;
+}
+
+.timeline-item.done .timeline-dot {
+  background: #4caf50;
+  box-shadow: 0 0 0 2rpx #4caf50;
+}
+
+.timeline-text {
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.timeline-item.done .timeline-text {
+  color: #333;
+}
+
+.timeline-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.service-section {
+  display: flex;
+  align-items: center;
+}
+
+.service-cover {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.service-info {
+  flex: 1;
+}
+
+.service-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.service-spec,
+.service-time,
+.service-duration {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.6;
+}
+
+.service-price {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.service-price .price {
+  font-size: 32rpx;
+}
+
+.technician-info {
+  display: flex;
+  align-items: center;
+}
+
+.tech-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.tech-detail {
+  flex: 1;
+}
+
+.tech-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.tech-phone {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 4rpx;
+}
+
+.tech-rating {
+  font-size: 24rpx;
+  color: #ff9500;
+}
+
+.arrow-right {
+  width: 28rpx;
+  height: 28rpx;
+  flex-shrink: 0;
+}
+
+.address-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.address-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.address-phone {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.address-detail {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.store-name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.store-address {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+  line-height: 1.5;
+}
+
+.store-phone {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.amount-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rpx 0;
+  font-size: 26rpx;
+}
+
+.amount-label {
+  color: #666;
+}
+
+.amount-value {
+  color: #333;
+}
+
+.amount-value.discount {
+  color: #4caf50;
+}
+
+.amount-value.addon {
+  color: #ff6b6b;
+}
+
+.amount-total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  padding-top: 16rpx;
+  border-top: 1rpx dashed #eee;
+  margin-top: 8rpx;
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 16rpx;
+}
+
+.total-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.addon-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+  font-size: 26rpx;
+}
+
+.addon-name {
+  flex: 1;
+  color: #333;
+}
+
+.addon-spec {
+  margin: 0 20rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.addon-price {
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+.review-stars {
+  font-size: 24rpx;
+  margin-bottom: 12rpx;
+}
+
+.review-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 12rpx;
+}
+
+.review-images {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+  margin-bottom: 12rpx;
+}
+
+.review-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 8rpx;
+}
+
+.review-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 0;
+  font-size: 24rpx;
+}
+
+.info-label {
+  color: #999;
+}
+
+.info-value {
+  color: #666;
+  max-width: 400rpx;
+  text-align: right;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 16rpx 24rpx;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.bar-left {
+  display: flex;
+  gap: 32rpx;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.bar-icon {
+  width: 44rpx;
+  height: 44rpx;
+  margin-bottom: 4rpx;
+}
+
+.bar-right {
+  flex: 1;
+  display: flex;
+  gap: 16rpx;
+  margin-left: 32rpx;
+  justify-content: flex-end;
+}
+
+.btn-bottom {
+  padding: 20rpx 32rpx;
+  font-size: 26rpx;
+}
+
+.loading {
+  padding: 100rpx 0;
+  text-align: center;
+  color: #999;
+}

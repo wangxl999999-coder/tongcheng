@@ -1,0 +1,53 @@
+<view class="container" wx:if="{{!loading}}">
+  <view class="amount-card">
+    <view class="amount-title">需补差价金额</view>
+    <view class="amount-value">¥{{supplementInfo.amount}}</view>
+    <view class="amount-desc">{{supplementInfo.reason}}</view>
+  </view>
+
+  <view class="order-info">
+    <view class="section-title">订单信息</view>
+    <view class="info-row">
+      <text class="label">订单号：</text>
+      <text class="value">{{orderInfo.order_no}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">服务项目：</text>
+      <text class="value">{{orderInfo.service_name}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">原订单金额：</text>
+      <text class="value">¥{{orderInfo.amount}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">实际服务金额：</text>
+      <text class="value">¥{{supplementInfo.actual_amount}}</text>
+    </view>
+    <view class="info-row highlight">
+      <text class="label">需补差价：</text>
+      <text class="value price">¥{{supplementInfo.amount}}</text>
+    </view>
+  </view>
+
+  <view class="supplement-detail" wx:if="{{supplementInfo.detail_list && supplementInfo.detail_list.length > 0}}">
+    <view class="section-title">差价明细</view>
+    <view class="detail-list">
+      <view class="detail-item" wx:for="{{supplementInfo.detail_list}}" wx:key="id">
+        <view class="detail-name">{{item.name}}</view>
+        <view class="detail-amount">+¥{{item.amount}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="pay-info">
+      <text class="pay-label">应付金额：</text>
+      <text class="pay-amount">¥{{supplementInfo.amount}}</text>
+    </view>
+    <button class="pay-btn" bindtap="onPay">立即支付</button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

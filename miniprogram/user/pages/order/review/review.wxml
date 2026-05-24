@@ -1,0 +1,99 @@
+<view class="container" wx:if="{{order}}">
+  <view class="service-info card">
+    <image class="service-cover" src="{{order.service_cover}}" mode="aspectFill"></image>
+    <view class="service-detail">
+      <view class="service-name">{{order.service_name}}</view>
+      <view class="service-spec" wx:if="{{order.spec_name}}">规格：{{order.spec_name}}</view>
+      <view class="service-time">服务时间：{{order.service_time * 1000}}</view>
+    </view>
+  </view>
+
+  <view class="rating-section card">
+    <view class="section-title">服务评分</view>
+    <view class="rating-stars">
+      <view 
+        wx:for="{{[1,2,3,4,5]}}" 
+        wx:key="*this"
+        class="star-item {{item <= rating ? 'active' : ''}}"
+        bindtap="onRatingTap"
+        data-rating="{{item}}"
+      >
+        <text class="star">★</text>
+      </view>
+      <text class="rating-text">{{ratingTypes[rating - 1]}}</text>
+    </view>
+
+    <view class="section-title" wx:if="{{order.technician_id}}">技师评分</view>
+    <view class="rating-stars" wx:if="{{order.technician_id}}">
+      <view 
+        wx:for="{{[1,2,3,4,5]}}" 
+        wx:key="*this"
+        class="star-item {{item <= technicianRating ? 'active' : ''}}"
+        bindtap="onTechnicianRatingTap"
+        data-rating="{{item}}"
+      >
+        <text class="star">★</text>
+      </view>
+      <text class="rating-text">{{ratingTypes[technicianRating - 1]}}</text>
+    </view>
+  </view>
+
+  <view class="content-section card">
+    <view class="section-title">评价内容</view>
+    <textarea 
+      class="content-input"
+      placeholder="请输入您对本次服务的评价..."
+      placeholder-class="placeholder"
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="500"
+    ></textarea>
+    <view class="content-count">{{content.length}}/500</view>
+  </view>
+
+  <view class="images-section card">
+    <view class="section-title">上传图片（最多9张）</view>
+    <view class="images-list">
+      <view 
+        wx:for="{{images}}" 
+        wx:key="*this"
+        class="image-item"
+        bindtap="onPreviewImage"
+        data-src="{{item}}"
+      >
+        <image src="{{item}}" mode="aspectFill"></image>
+        <view class="delete-btn" catchtap="onDeleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view 
+        class="image-item add-item" 
+        bindtap="onChooseImage"
+        wx:if="{{images.length < 9}}"
+      >
+        <image src="/images/add-image.png" class="add-icon"></image>
+        <text>添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="anonymous-section card">
+    <view class="section-title">匿名评价</view>
+    <switch 
+      checked="{{isAnonymous === 1}}" 
+      color="#ff6b6b"
+      bindchange="onAnonymousChange"
+    />
+  </view>
+
+  <view class="footer">
+    <view 
+      class="btn btn-primary btn-block btn-submit {{submitting ? 'disabled' : ''}}"
+      bindtap="onSubmit"
+    >
+      {{submitting ? '提交中...' : '提交评价'}}
+    </view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

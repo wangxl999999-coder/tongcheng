@@ -1,0 +1,180 @@
+<view class="container" wx:if="{{service}}">
+  <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}">
+    <swiper-item wx:for="{{service.images}}" wx:key="*this">
+      <image 
+        src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-src="{{item}}"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="service-info card">
+    <view class="service-header">
+      <view class="service-name">{{service.name}}</view>
+      <view class="service-price">
+        <text class="currency">¥</text>
+        <text class="amount">{{currentSpec ? currentSpec.price : service.price}}</text>
+        <text class="unit">
+          {{currentSpec ? currentSpec.duration : service.duration}}分钟
+        </text>
+      </view>
+    </view>
+    <view class="service-sales">
+      <text>销量 {{service.sales || 0}}</text>
+      <text>好评率 {{service.good_rate || '100'}}%</text>
+    </view>
+    <view class="service-tags" wx:if="{{service.tags && service.tags.length > 0}}">
+      <view wx:for="{{service.tags}}" wx:key="*this" class="tag-item">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="service-notice card" wx:if="{{service.notice}}">
+    <view class="section-title">服务须知</view>
+    <view class="notice-content">{{service.notice}}</view>
+  </view>
+
+  <view class="service-desc card" wx:if="{{service.description}}">
+    <view class="section-title">服务说明</view>
+    <view class="desc-content">{{service.description}}</view>
+    <view class="desc-images" wx:if="{{service.desc_images && service.desc_images.length > 0}}">
+      <image 
+        wx:for="{{service.desc_images}}" 
+        wx:key="*this"
+        src="{{item}}" 
+        mode="widthFix"
+        bindtap="onPreviewImage"
+        data-src="{{item}}"
+      ></image>
+    </view>
+  </view>
+
+  <view class="technician-section card">
+    <view class="section-header">
+      <view class="section-title">服务技师</view>
+      <view class="section-more" bindtap="onChooseTechnician">
+        全部技师
+        <image src="/images/arrow-right.png" class="arrow-right"></image>
+      </view>
+    </view>
+    <scroll-view class="technician-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view class="technician-list">
+        <view 
+          wx:for="{{service.technicians}}" 
+        wx:key="id"
+          class="technician-item"
+          bindtap="onTechnicianTap"
+          data-technician="{{item}}"
+        >
+          <image class="tech-avatar" src="{{item.avatar || '/images/default-avatar.png'}}"></image>
+          <view class="tech-name">{{item.name}}</view>
+          <view class="tech-rating">⭐ {{item.rating || '5.0'}}</view>
+          <view class="tech-orders">接单{{item.order_count || 0}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="review-section card">
+    <view class="section-header">
+      <view class="section-title">用户评价</view>
+      <view class="section-more" bindtap="onAllReviews">
+        全部
+        <image src="/images/arrow-right.png" class="arrow-right"></image>
+      </view>
+    </view>
+    <view class="review-summary">
+      <view class="rating-score">{{service.rating || '5.0'}}</view>
+      <view class="rating-stars">
+        <text wx:for="{{5}}" wx:key="*this">⭐</text>
+      </view>
+      <view class="rating-count">{{service.review_count || 0}}条评价</view>
+    </view>
+    <view class="review-list">
+      <view wx:for="{{reviews}}" wx:key="id" class="review-item">
+        <view class="review-header">
+          <image class="user-avatar" src="{{item.user_avatar || '/images/default-avatar.png'}}"></image>
+          <view class="user-info">
+            <view class="user-name">{{item.is_anonymous ? '匿名用户' : item.user_name}}</view>
+            <view class="review-meta">
+              <text wx:for="{{item.rating}}" wx:for-item="star" wx:key="index">⭐</text>
+              <text class="review-time">{{item.created_at * 1000}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="review-content">{{item.content}}</view>
+        <view class="review-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image 
+            wx:for="{{item.images}}" 
+            wx:for-item="img" 
+            wx:key="*this"
+            src="{{img}}" 
+            mode="aspectFill"
+          ></image>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{reviews.length === 0}}">
+      <text>暂无评价</text>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="bar-actions">
+      <view class="bar-item" bindtap="onCollect">
+        <image src="{{isCollected ? '/images/collect-active.png' : '/images/collect.png'}}" class="bar-icon"></image>
+        <text>{{isCollected ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="bar-item">
+        <image src="/images/kefu.png" class="bar-icon"></image>
+        <text>客服</text>
+      </view>
+    </view>
+    <view class="bar-btns">
+      <view class="btn btn-outline" bindtap="showSpecPicker">加入购物车</view>
+      <view class="btn btn-primary" bindtap="onBuyNow">立即预约</view>
+    </view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{showSpecPicker}}" bindtap="hideSpecPicker"></view>
+  <view class="spec-popup" wx:if="{{showSpecPicker}}">
+    <view class="popup-header">
+      <image class="spec-cover" src="{{service.cover}}" mode="aspectFill"></image>
+      <view class="spec-info">
+        <view class="spec-price">
+          <text class="currency">¥</text>
+          <text class="amount">{{currentSpec ? currentSpec.price : service.price}}</text>
+        </view>
+        <view class="spec-stock">库存充足</view>
+      </view>
+      <view class="popup-close" bindtap="hideSpecPicker">×</view>
+    </view>
+    <view class="popup-content">
+      <view class="spec-title">选择规格</view>
+      <view class="spec-list">
+        <view 
+          wx:for="{{service.specs}}" 
+          wx:key="id"
+          class="spec-item {{currentSpecIndex === index ? 'active' : ''}}"
+          bindtap="onSpecTap"
+          data-index="{{index}}"
+        >
+          <view class="spec-name">{{item.name}}</view>
+          <view class="spec-price-small">¥{{item.price}}</view>
+        </view>
+      </view>
+
+      <view class="technician-title">
+        <view class="spec-title">服务方式</view>
+        <view class="type-list">
+          <view class="type-item active">上门服务</view>
+          <view class="type-item" wx:if="{{service.stores && service.stores.length > 0}}">到店服务</view>
+        </view>
+      </view>
+    </view>
+    <view class="popup-footer">
+      <view class="btn btn-primary btn-block" bindtap="confirmSpec">确认</view>
+    </view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

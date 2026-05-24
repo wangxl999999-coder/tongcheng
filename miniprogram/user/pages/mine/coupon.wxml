@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="tabs">
+    <view 
+      wx:for="{{tabs}}" 
+      wx:key="*this"
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      bindtap="onTabTap"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </view>
+
+  <view class="redeem-btn" bindtap="onShowCodeInput">
+    <image src="/images/coupon-code.png" class="redeem-icon"></image>
+    <text>口令兑换优惠券</text>
+    <image src="/images/arrow-right.png" class="arrow-right"></image>
+  </view>
+
+  <view class="coupon-list">
+    <view 
+      wx:for="{{coupons}}" 
+      wx:key="id"
+      class="coupon-item {{item.status !== 1 ? 'disabled' : ''}}"
+      bindtap="onUseCoupon"
+      data-coupon="{{item}}"
+    >
+      <view class="coupon-left">
+        <text class="coupon-amount" wx:if="{{item.amount > 0}}">¥{{item.amount}}</text>
+        <text class="coupon-discount" wx:else>{{item.discount}}折</text>
+        <text class="coupon-condition" wx:if="{{item.min_amount > 0}}">满{{item.min_amount}}可用</text>
+      </view>
+      <view class="coupon-right">
+        <view class="coupon-name">{{item.name}}</view>
+        <view class="coupon-desc">{{item.desc}}</view>
+        <view class="coupon-time">有效期至 {{item.end_time * 1000}}</view>
+      </view>
+      <view class="coupon-status" wx:if="{{item.status === 2}}">已使用</view>
+      <view class="coupon-status" wx:elif="{{item.status === 3}}">已过期</view>
+      <view class="coupon-use" wx:if="{{item.status === 1}}">立即使用</view>
+    </view>
+
+    <view class="empty" wx:if="{{coupons.length === 0 && !loading}}">
+      <image src="/images/empty-coupon.png" class="empty-icon"></image>
+      <text class="empty-text">暂无优惠券</text>
+      <text class="empty-desc">多多关注活动，领取更多优惠</text>
+    </view>
+
+    <view class="load-more" wx:if="{{!hasMore && coupons.length > 0}}">
+      <text>- 没有更多了 -</text>
+    </view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{showCodeInput}}" bindtap="hideCodeInput"></view>
+  <view class="code-popup" wx:if="{{showCodeInput}}">
+    <view class="popup-header">
+      <text class="popup-title">口令兑换</text>
+      <view class="popup-close" bindtap="hideCodeInput">×</view>
+    </view>
+    <view class="popup-content">
+      <input 
+        class="code-input"
+        placeholder="请输入优惠券口令"
+        placeholder-class="placeholder"
+        value="{{code}}"
+        bindinput="onCodeInput"
+        maxlength="20"
+      />
+      <view class="btn btn-primary btn-redeem" bindtap="onRedeemCode">立即兑换</view>
+    </view>
+  </view>
+</view>

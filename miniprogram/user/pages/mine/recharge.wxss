@@ -1,0 +1,323 @@
+.container {
+  padding-bottom: 200rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin: 24rpx;
+  padding: 24rpx;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.user-detail {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.balance {
+  font-size: 26rpx;
+  color: #ff6b6b;
+}
+
+.section {
+  padding: 0 24rpx;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.package-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.package-item {
+  width: calc(50% - 8rpx);
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  border: 3rpx solid transparent;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.package-item.active {
+  border-color: #ff6b6b;
+  background: #fff5f5;
+}
+
+.package-amount {
+  margin-bottom: 8rpx;
+}
+
+.package-amount .symbol {
+  font-size: 28rpx;
+  color: #ff6b6b;
+  vertical-align: top;
+}
+
+.package-amount .amount {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.package-gift {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  background: #ffe8e8;
+  color: #ff6b6b;
+  font-size: 22rpx;
+  border-radius: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.package-level {
+  font-size: 22rpx;
+  color: #ff9500;
+}
+
+.package-hot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4rpx 16rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff9500 100%);
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 0 16rpx 0 12rpx;
+}
+
+.check-mark {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background: #ff6b6b;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 24rpx;
+}
+
+.package-item.custom {
+  background: #f8f8f8;
+  border-style: dashed;
+}
+
+.package-item.custom.active {
+  background: #fff5f5;
+  border-style: solid;
+}
+
+.custom-content {
+  min-height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-text {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.custom-input {
+  width: 100%;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+  text-align: center;
+}
+
+.placeholder {
+  color: #ccc;
+  font-weight: normal;
+  font-size: 26rpx;
+}
+
+.pay-methods {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.pay-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.pay-item:last-child {
+  border-bottom: none;
+}
+
+.pay-icon {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 12rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pay-icon.wechat {
+  background-color: #07c160;
+  background-image: url('/images/pay-wechat.png');
+}
+
+.pay-icon.balance {
+  background-color: #ff6b6b;
+  background-image: url('/images/pay-balance.png');
+}
+
+.pay-info {
+  flex: 1;
+}
+
+.pay-name {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.pay-desc {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.radio {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 50%;
+  position: relative;
+}
+
+.radio.checked {
+  border-color: #ff6b6b;
+}
+
+.radio.checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20rpx;
+  height: 20rpx;
+  background: #ff6b6b;
+  border-radius: 50%;
+}
+
+.detail-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.detail-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.detail-value {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.detail-value.gift {
+  color: #4caf50;
+}
+
+.detail-item.total {
+  padding-top: 20rpx;
+  margin-top: 12rpx;
+  border-top: 1rpx dashed #eee;
+}
+
+.total-amount {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.footer-info {
+  display: flex;
+  align-items: baseline;
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.total-amount {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.btn-recharge {
+  padding: 24rpx 60rpx;
+  font-size: 30rpx;
+}
+
+.btn-recharge.disabled {
+  background: #ccc;
+}
+
+.agreement {
+  padding: 20rpx 24rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #999;
+}

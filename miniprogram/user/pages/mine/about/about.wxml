@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="logo-section">
+    <view class="logo">🏠</view>
+    <view class="app-name">{{info.name}}</view>
+    <view class="version">v{{version}}</view>
+  </view>
+
+  <view class="desc-section">
+    <text class="desc">{{info.desc}}</text>
+  </view>
+
+  <view class="features-section">
+    <view class="section-title">平台优势</view>
+    <view class="feature-item" wx:for="{{info.features}}" wx:key="index">
+      <view class="feature-icon">✓</view>
+      <text class="feature-text">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="contact-section">
+    <view class="section-title">联系我们</view>
+    <view class="contact-item" bindtap="onCallPhone">
+      <view class="contact-icon">📞</view>
+      <view class="contact-info">
+        <view class="contact-label">客服电话</view>
+        <view class="contact-value">{{info.contact.phone}}</view>
+      </view>
+      <view class="contact-arrow">›</view>
+    </view>
+    <view class="contact-item">
+      <view class="contact-icon">📧</view>
+      <view class="contact-info">
+        <view class="contact-label">电子邮箱</view>
+        <view class="contact-value">{{info.contact.email}}</view>
+      </view>
+    </view>
+    <view class="contact-item">
+      <view class="contact-icon">📍</view>
+      <view class="contact-info">
+        <view class="contact-label">公司地址</view>
+        <view class="contact-value">{{info.contact.address}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="actions-section">
+    <button class="action-btn" bindtap="onCheckUpdate">检查更新</button>
+  </view>
+
+  <view class="copyright">
+    <text>© 2024 同城上门服务 版权所有</text>
+  </view>
+</view>

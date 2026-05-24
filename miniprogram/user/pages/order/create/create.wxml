@@ -1,0 +1,272 @@
+<view class="container" wx:if="{{service}}">
+  <scroll-view class="content" scroll-y="{{true}}">
+    <view class="service-section card">
+      <image class="service-cover" src="{{service.cover}}" mode="aspectFill"></image>
+      <view class="service-info">
+        <view class="service-name">{{service.name}}</view>
+        <view class="service-spec" wx:if="{{currentSpec}}">规格：{{currentSpec.name}}</view>
+        <view class="service-duration">时长：{{currentSpec ? currentSpec.duration : service.duration}}分钟</view>
+      </view>
+      <view class="service-price">
+        <text class="price">¥{{currentSpec ? currentSpec.price : service.price}}</text>
+      </view>
+    </view>
+
+    <view class="spec-section card" wx:if="{{service.specs && service.specs.length > 1}}">
+      <view class="section-title">选择规格</view>
+      <view class="spec-list">
+        <view 
+          wx:for="{{service.specs}}" 
+          wx:key="id"
+          class="spec-item {{currentSpec && currentSpec.id === item.id ? 'active' : ''}}"
+          bindtap="onSpecTap"
+          data-spec="{{item}}"
+        >
+          <view class="spec-name">{{item.name}}</view>
+          <view class="spec-price">¥{{item.price}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="service-type-section card">
+      <view class="section-title">服务方式</view>
+      <view class="type-list">
+        <view 
+          class="type-item {{serviceType === 1 ? 'active' : ''}}"
+          bindtap="onServiceTypeTap"
+          data-type="1"
+        >
+          <view class="type-icon icon-home"></view>
+          <text class="type-name">上门服务</text>
+          <text class="type-desc">技师上门为您服务</text>
+        </view>
+        <view 
+          class="type-item {{serviceType === 2 ? 'active' : ''}}"
+          bindtap="onServiceTypeTap"
+          data-type="2"
+          wx:if="{{service.stores && service.stores.length > 0}}"
+        >
+          <view class="type-icon icon-store"></view>
+          <text class="type-name">到店服务</text>
+          <text class="type-desc">到门店接受服务</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="time-section card">
+      <view class="section-title">服务时间</view>
+      <scroll-view class="date-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+        <view class="date-list">
+          <view 
+            wx:for="{{days}}" 
+            wx:key="timestamp"
+            class="date-item {{currentDayIndex === index ? 'active' : ''}}"
+            bindtap="onDayTap"
+            data-index="{{index}}"
+          >
+            <text class="date-week">{{item.week}}</text>
+            <text class="date-month">{{item.month}}月{{item.day}}日</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="time-grid">
+        <view 
+          wx:for="{{times}}" 
+          wx:key="time"
+          class="time-item {{currentTimeIndex === index ? 'active' : ''}} {{item.disabled ? 'disabled' : ''}}"
+          bindtap="onTimeTap"
+          data-index="{{index}}"
+        >
+          {{item.time}}
+        </view>
+      </view>
+    </view>
+
+    <view class="address-section card" wx:if="{{serviceType === 1}}">
+      <view class="section-header">
+        <view class="section-title">服务地址</view>
+        <view class="section-more" bindtap="onChooseAddress">选择</view>
+      </view>
+      <view class="address-content" wx:if="{{address}}" bindtap="onChooseAddress">
+        <view class="address-top">
+          <text class="address-name">{{address.name}}</text>
+          <text class="address-phone">{{address.mobile}}</text>
+          <text class="address-tag" wx:if="{{address.tag}}">{{address.tag}}</text>
+        </view>
+        <view class="address-detail">
+          {{address.province}}{{address.city}}{{address.district}}{{address.detail}}
+        </view>
+      </view>
+      <view class="add-address" wx:else bindtap="onAddAddress">
+        <image src="/images/add.png" class="add-icon"></image>
+        <text>添加服务地址</text>
+      </view>
+    </view>
+
+    <view class="store-section card" wx:if="{{serviceType === 2 && service.stores && service.stores.length > 0}}">
+      <view class="section-title">选择门店</view>
+      <view class="store-list">
+        <view 
+          class="store-item {{storeId === item.id ? 'active' : ''}}"
+          wx:for="{{service.stores}}" 
+          wx:key="id"
+          bindtap="onStoreTap"
+          data-store="{{item}}"
+        >
+          <image class="store-image" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="store-info">
+            <view class="store-name">{{item.name}}</view>
+            <view class="store-address text-ellipsis">{{item.address}}</view>
+            <view class="store-phone">📞 {{item.mobile}}</view>
+          </view>
+          <view class="store-check" wx:if="{{storeId === item.id}}">✓</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="technician-section card" wx:if="{{technician}}">
+      <view class="section-title">服务技师</view>
+      <view class="technician-info">
+        <image class="tech-avatar" src="{{technician.avatar || '/images/default-avatar.png'}}"></image>
+        <view class="tech-detail">
+          <view class="tech-name">{{technician.name}}</view>
+          <view class="tech-skills">{{technician.skills}}</view>
+          <view class="tech-meta">
+            <text>⭐ {{technician.rating || '5.0'}}</text>
+            <text>接单{{technician.order_count || 0}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="coupon-section card" bindtap="onChooseCoupon">
+      <view class="section-header">
+        <view class="section-title">优惠券</view>
+        <view class="section-value">
+          <text wx:if="{{coupon}}" class="coupon-selected">-¥{{coupon.amount || '折扣'}}</text>
+          <text wx:elif="{{availableCoupons.length > 0}}" class="coupon-available">{{availableCoupons.length}}张可用</text>
+          <text wx:else class="coupon-none">暂无可用</text>
+          <image src="/images/arrow-right.png" class="arrow-right"></image>
+        </view>
+      </view>
+    </view>
+
+    <view class="balance-section card" wx:if="{{userInfo && userInfo.balance > 0}}">
+      <view class="section-header">
+        <view class="section-title">余额支付</view>
+        <view class="section-value">
+          <text class="balance-amount">可用 ¥{{userInfo.balance.toFixed(2)}}</text>
+          <switch 
+            checked="{{useBalance > 0}}" 
+            color="#ff6b6b"
+            bindchange="onBalanceChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="contact-section card">
+      <view class="section-title">联系方式</view>
+      <view class="input-group">
+        <view class="input-item">
+          <text class="label">联系人</text>
+          <input 
+            placeholder="请输入联系人姓名" 
+            placeholder-class="placeholder"
+            value="{{contactName}}"
+            bindinput="onContactNameInput"
+          />
+        </view>
+        <view class="input-item">
+          <text class="label">手机号</text>
+          <input 
+            type="number"
+            placeholder="请输入联系电话" 
+            placeholder-class="placeholder"
+            value="{{contactMobile}}"
+            bindinput="onContactMobileInput"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="remark-section card">
+      <view class="section-title">订单备注</view>
+      <textarea 
+        class="remark-input" 
+        placeholder="请填写订单备注（选填）" 
+        placeholder-class="placeholder"
+        value="{{remark}}"
+        bindinput="onRemarkInput"
+        maxlength="200"
+      ></textarea>
+    </view>
+
+    <view class="amount-section card">
+      <view class="amount-list">
+        <view class="amount-item">
+          <text class="amount-label">服务费用</text>
+          <text class="amount-value">¥{{totalAmount.toFixed(2)}}</text>
+        </view>
+        <view class="amount-item" wx:if="{{coupon}}">
+          <text class="amount-label">优惠券</text>
+          <text class="amount-value discount">-¥{{discountAmount.toFixed(2)}}</text>
+        </view>
+        <view class="amount-item" wx:if="{{useBalance > 0}}">
+          <text class="amount-label">余额抵扣</text>
+          <text class="amount-value discount">-¥{{useBalance.toFixed(2)}}</text>
+        </view>
+      </view>
+      <view class="amount-total">
+        <text class="total-label">实付金额</text>
+        <text class="total-value">¥{{payAmount.toFixed(2)}}</text>
+      </view>
+    </view>
+
+    <view class="footer-space"></view>
+  </scroll-view>
+
+  <view class="bottom-bar">
+    <view class="total-info">
+      <text class="total-text">合计：</text>
+      <text class="total-price">¥{{payAmount.toFixed(2)}}</text>
+    </view>
+    <view class="btn btn-primary btn-submit" bindtap="onSubmit">提交订单</view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{showCouponPicker}}" bindtap="hideCouponPicker"></view>
+  <view class="coupon-popup" wx:if="{{showCouponPicker}}">
+    <view class="popup-header">
+      <text class="popup-title">选择优惠券</text>
+      <view class="popup-close" bindtap="hideCouponPicker">×</view>
+    </view>
+    <scroll-view class="popup-content" scroll-y="{{true}}">
+      <view 
+        class="coupon-item {{couponId === item.id ? 'selected' : ''}}"
+        wx:for="{{availableCoupons}}" 
+        wx:key="id"
+        bindtap="onSelectCoupon"
+        data-coupon="{{item}}"
+      >
+        <view class="coupon-left">
+          <text class="coupon-amount" wx:if="{{item.amount > 0}}">¥{{item.amount}}</text>
+          <text class="coupon-discount" wx:else>{{item.discount}}折</text>
+          <text class="coupon-condition" wx:if="{{item.min_amount > 0}}">满{{item.min_amount}}可用</text>
+        </view>
+        <view class="coupon-right">
+          <view class="coupon-name">{{item.name}}</view>
+          <view class="coupon-desc">{{item.desc}}</view>
+          <view class="coupon-time">有效期至 {{item.end_time * 1000}}</view>
+        </view>
+        <view class="coupon-check" wx:if="{{couponId === item.id}}">✓</view>
+      </view>
+      <view class="empty" wx:if="{{availableCoupons.length === 0}}">
+        <text>暂无可用优惠券</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

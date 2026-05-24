@@ -1,0 +1,75 @@
+<view class="container">
+  <view class="search-bar">
+    <view class="search-box">
+      <image src="/images/search.png" class="search-icon"></image>
+      <input 
+        class="search-input" 
+        placeholder="搜索服务项目" 
+        placeholder-class="search-placeholder"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+      />
+      <view class="search-btn" bindtap="onSearch">搜索</view>
+    </view>
+  </view>
+
+  <view class="sort-bar">
+    <view 
+      wx:for="{{sortOptions}}" 
+      wx:key="value"
+      class="sort-item {{sort === item.value ? 'active' : ''}}"
+      bindtap="onSortTap"
+      data-sort="{{item.value}}"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <view class="service-list">
+    <view 
+      class="service-item card" 
+      wx:for="{{services}}" 
+      wx:key="id"
+      bindtap="onServiceTap"
+      data-service="{{item}}"
+    >
+      <image class="service-cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view class="service-info">
+        <view class="service-header">
+          <view class="service-name text-ellipsis">{{item.name}}</view>
+          <view class="service-tag" wx:if="{{item.is_hot}}">热门</view>
+        </view>
+        <view class="service-desc text-ellipsis-2">{{item.desc || item.category_name}}</view>
+        <view class="service-meta">
+          <text class="service-duration">⏱ {{item.duration}}分钟</text>
+          <text class="service-sales">月销{{item.sales || 0}}</text>
+          <text class="service-rating">⭐ {{item.rating || '5.0'}}</text>
+        </view>
+        <view class="service-footer">
+          <view class="service-price">
+            <text class="price">¥{{item.price}}</text>
+            <text class="old-price" wx:if="{{item.market_price}}">¥{{item.market_price}}</text>
+          </view>
+          <view class="service-distance" wx:if="{{item.distance > 0}}">
+            {{item.distance < 1 ? (item.distance * 1000).toFixed(0) + 'm' : item.distance.toFixed(2) + 'km'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{services.length === 0 && !loading}}">
+    <image src="/images/empty.png"></image>
+    <text>暂无相关服务</text>
+  </view>
+
+  <view class="loading-more" wx:if="{{loading && services.length > 0}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && services.length > 0}}">
+    <text>— 没有更多了 —</text>
+  </view>
+</view>

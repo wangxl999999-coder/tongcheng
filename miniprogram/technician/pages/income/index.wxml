@@ -1,0 +1,96 @@
+<view class="container">
+  <view class="header">
+    <view class="header-top">
+      <view class="total-income">
+        <view class="income-label">累计收入</view>
+        <view class="income-value">¥{{stats.totalIncome}}</view>
+      </view>
+      <button class="withdraw-btn" bindtap="onWithdraw">提现</button>
+    </view>
+    <view class="header-bottom">
+      <view class="income-item">
+        <view class="item-value">¥{{stats.availableAmount}}</view>
+        <view class="item-label">可提现</view>
+      </view>
+      <view class="income-item">
+        <view class="item-value">¥{{stats.withdrawAmount}}</view>
+        <view class="item-label">已提现</view>
+      </view>
+      <view class="income-item">
+        <view class="item-value">{{stats.orderCount}}</view>
+        <view class="item-label">服务单量</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-cards">
+    <view class="stat-card" data-type="today" bindtap="onTabChange">
+      <view class="stat-label">今日收入</view>
+      <view class="stat-value price">¥{{stats.todayIncome}}</view>
+    </view>
+    <view class="stat-card" data-type="week" bindtap="onTabChange">
+      <view class="stat-label">本周收入</view>
+      <view class="stat-value price">¥{{stats.weekIncome}}</view>
+    </view>
+    <view class="stat-card" data-type="month" bindtap="onTabChange">
+      <view class="stat-label">本月收入</view>
+      <view class="stat-value price">¥{{stats.monthIncome}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">收入明细</view>
+    </view>
+    
+    <view class="tabs">
+      <view 
+        class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
+        wx:for="{{tabs}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onTabChange"
+      >
+        {{item.name}}
+      </view>
+    </view>
+
+    <view class="income-list" wx:if="{{!loading}}">
+      <view 
+        class="income-item" 
+        wx:for="{{incomeList}}" 
+        wx:key="id"
+        data-id="{{item.order_id}}"
+        bindtap="onIncomeDetail"
+      >
+        <view class="item-left">
+          <view class="item-icon">💰</view>
+          <view class="item-info">
+            <view class="item-title">{{item.service_name}}</view>
+            <view class="item-time">{{item.create_time}}</view>
+          </view>
+        </view>
+        <view class="item-right">
+          <view class="item-amount income">+¥{{item.amount}}</view>
+          <view class="item-status" wx:if="{{item.status === 1}}">已到账</view>
+          <view class="item-status pending" wx:if="{{item.status === 0}}">待结算</view>
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{incomeList.length === 0}}">
+        <text>暂无收入记录</text>
+      </view>
+
+      <view class="load-more" wx:if="{{loadingMore}}">
+        <text>加载中...</text>
+      </view>
+      <view class="load-more" wx:if="{{!hasMore && incomeList.length > 0}}">
+        <text>没有更多了</text>
+      </view>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+  </view>
+</view>

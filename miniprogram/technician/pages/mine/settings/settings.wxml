@@ -1,0 +1,88 @@
+<view class="container" wx:if="{{!loading}}">
+  <view class="section">
+    <view class="section-title">接单设置</view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="item-label">自动接单</view>
+        <switch 
+          checked="{{settings.auto_accept === 1}}" 
+          color="#ff6b6b"
+          bindchange="onAutoAcceptChange"
+        />
+      </view>
+      <view class="form-item column">
+        <view class="item-label">服务范围 ({{settings.service_range}} 公里)</view>
+        <slider 
+          min="1" 
+          max="20" 
+          step="1" 
+          value="{{settings.service_range}}"
+          activeColor="#ff6b6b"
+          bindchange="onRangeChange"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">工作时间</view>
+    <view class="form-card">
+      <view class="form-item column">
+        <view class="item-label">工作日</view>
+        <view class="day-list">
+          <view 
+            class="day-item {{settings.work_days.includes(index + 1) ? 'active' : ''}}" 
+            wx:for="{{weekDays}}" 
+            wx:key="index"
+            data-day="{{index + 1}}"
+            bindtap="onDayChange"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+      <view class="form-item">
+        <view class="item-label">开始时间</view>
+        <picker mode="time" value="{{settings.work_start}}" bindchange="onStartTimeChange">
+          <view class="picker-value">{{settings.work_start}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="item-label">结束时间</view>
+        <picker mode="time" value="{{settings.work_end}}" bindchange="onEndTimeChange">
+          <view class="picker-value">{{settings.work_end}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">通知设置</view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="item-label">声音提醒</view>
+        <switch 
+          checked="{{settings.notice_sound === 1}}" 
+          color="#ff6b6b"
+          bindchange="onSoundChange"
+        />
+      </view>
+      <view class="form-item">
+        <view class="item-label">震动提醒</view>
+        <switch 
+          checked="{{settings.notice_vibrate === 1}}" 
+          color="#ff6b6b"
+          bindchange="onVibrateChange"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="onSubmit">保存设置</button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

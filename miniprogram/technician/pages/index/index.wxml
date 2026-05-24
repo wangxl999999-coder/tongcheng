@@ -1,0 +1,105 @@
+<view class="container">
+  <view class="header" wx:if="{{technicianInfo}}">
+    <view class="info-row">
+      <image class="avatar" src="{{technicianInfo.avatar}}" mode="aspectFill"></image>
+      <view class="info">
+        <view class="name">{{technicianInfo.name}}</view>
+        <view class="level">
+          <text class="tag tag-primary">Lv.{{technicianInfo.level}}</text>
+          <text class="rating">⭐ {{technicianInfo.rating}}</text>
+        </view>
+      </view>
+      <view class="online-switch" bindtap="onToggleOnline">
+        <view class="switch {{onlineStatus === 1 ? 'on' : ''}}">
+          <view class="switch-dot"></view>
+        </view>
+        <text class="switch-text">{{onlineStatus === 1 ? '在线' : '离线'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stat-item" bindtap="onTodayOrders">
+      <view class="stat-value">{{stats.todayOrders}}</view>
+      <view class="stat-label">今日接单</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="onTodayIncome">
+      <view class="stat-value price">¥{{stats.todayIncome}}</view>
+      <view class="stat-label">今日收入</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="onPendingOrders">
+      <view class="stat-value">{{stats.pendingOrders}}</view>
+      <view class="stat-label">待服务</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">抢单大厅</view>
+      <view class="refresh-btn" bindtap="onRefreshOrders">
+        <text>🔄 刷新</text>
+      </view>
+    </view>
+
+    <view class="order-list" wx:if="{{!loading}}">
+      <view 
+        class="order-item" 
+        wx:for="{{grabOrders}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onOrderDetail"
+      >
+        <view class="order-header">
+          <view class="order-type">
+            <text class="tag tag-warning">{{item.service_type === 1 ? '上门服务' : '到店服务'}}</text>
+            <text class="order-no">{{item.order_no}}</text>
+          </view>
+          <view class="order-price">¥{{item.amount}}</view>
+        </view>
+        
+        <view class="order-info">
+          <view class="info-line">
+            <text class="info-icon">🛠️</text>
+            <text class="info-text">{{item.service_name}}</text>
+          </view>
+          <view class="info-line">
+            <text class="info-icon">⏰</text>
+            <text class="info-text">{{item.appointment_time}}</text>
+          </view>
+          <view class="info-line" wx:if="{{item.address}}">
+            <text class="info-icon">📍</text>
+            <text class="info-text">{{item.address}}</text>
+          </view>
+          <view class="info-line" wx:if="{{item.distance}}">
+            <text class="info-icon">📏</text>
+            <text class="info-text">距离您 {{item.distance}} km</text>
+          </view>
+        </view>
+
+        <view class="order-footer">
+          <view class="user-info">
+            <image class="user-avatar" src="{{item.user_avatar}}" mode="aspectFill"></image>
+            <text class="user-name">{{item.user_name}}</text>
+          </view>
+          <button 
+            class="grab-btn" 
+            catchtap="onGrabOrder"
+            data-id="{{item.id}}"
+          >
+            立即抢单
+          </button>
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{grabOrders.length === 0}}">
+        <text>暂无可抢订单</text>
+      </view>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+  </view>
+</view>

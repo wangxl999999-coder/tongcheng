@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="contact-info">
+    <view class="info-item" bindtap="onCallPhone">
+      <view class="info-icon">📞</view>
+      <view class="info-content">
+        <view class="info-label">客服电话</view>
+        <view class="info-value">{{serviceInfo.phone}}</view>
+      </view>
+      <view class="info-arrow">›</view>
+    </view>
+    <view class="info-item" bindtap="onCopyWechat">
+      <view class="info-icon">💬</view>
+      <view class="info-content">
+        <view class="info-label">微信客服</view>
+        <view class="info-value">{{serviceInfo.wechat}}</view>
+      </view>
+      <view class="info-arrow">复制</view>
+    </view>
+    <view class="info-item" bindtap="onCopyQQ">
+      <view class="info-icon">🐧</view>
+      <view class="info-content">
+        <view class="info-label">QQ客服</view>
+        <view class="info-value">{{serviceInfo.qq}}</view>
+      </view>
+      <view class="info-arrow">复制</view>
+    </view>
+    <view class="info-item">
+      <view class="info-icon">⏰</view>
+      <view class="info-content">
+        <view class="info-label">工作时间</view>
+        <view class="info-value">{{serviceInfo.workTime}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="chat-section">
+    <view class="chat-title">在线咨询</view>
+    <scroll-view class="chat-messages" scroll-y scroll-top="{{scrollTop}}" scroll-with-animation>
+      <view 
+        class="message-item {{item.type}}" 
+        wx:for="{{messageList}}" 
+        wx:key="index"
+      >
+        <view class="message-avatar">{{item.type === 'service' ? '客' : '我'}}</view>
+        <view class="message-content">
+          <view class="message-bubble">{{item.content}}</view>
+          <view class="message-time">{{item.time}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="input-bar">
+    <input 
+      class="input-field" 
+      placeholder="请输入您的问题..." 
+      value="{{inputValue}}"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="onSend"
+    />
+    <button class="send-btn" bindtap="onSend">发送</button>
+  </view>
+</view>

@@ -1,0 +1,97 @@
+.container {
+  padding: 24rpx;
+}
+
+.form-section {
+  padding: 0;
+  margin-bottom: 30rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  min-height: 88rpx;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-item .label {
+  width: 140rpx;
+  font-size: 28rpx;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.form-item input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.picker-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.placeholder {
+  color: #999;
+}
+
+.arrow-right {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.detail-input {
+  flex: 1;
+  font-size: 28rpx;
+  min-height: 80rpx;
+}
+
+.tag-list {
+  flex: 1;
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.tag-item {
+  padding: 12rpx 28rpx;
+  background: #f5f5f5;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+}
+
+.tag-item.active {
+  background: #fff5f5;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.btn-group {
+  padding: 0 24rpx;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 28rpx;
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.btn-delete {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}

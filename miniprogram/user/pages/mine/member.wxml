@@ -1,0 +1,98 @@
+<view class="container" wx:if="{{!loading}}">
+  <view class="member-card">
+    <view class="card-bg"></view>
+    <view class="card-content">
+      <view class="user-info">
+        <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+        <view class="user-detail">
+          <view class="nickname">{{userInfo.nickname}}</view>
+          <view class="level-name">
+            <text class="level-badge">{{currentLevel.name}}</text>
+            <text class="level-icon">👑</text>
+          </view>
+        </view>
+      </view>
+      <view class="member-no">会员编号：{{userInfo.member_no || '---'}}</view>
+    </view>
+  </view>
+
+  <view class="stats-section card">
+    <view class="stat-item">
+      <text class="stat-value">{{userInfo.total_consume ? userInfo.total_consume.toFixed(2) : '0.00'}}</text>
+      <text class="stat-label">累计消费</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{userInfo.points || 0}}</text>
+      <text class="stat-label">可用积分</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{currentLevel.discount / 10}}折</text>
+      <text class="stat-label">会员折扣</text>
+    </view>
+  </view>
+
+  <view class="progress-section card" wx:if="{{nextLevel}}">
+    <view class="progress-header">
+      <text class="current-level">{{currentLevel.name}}</text>
+      <text class="next-level">{{nextLevel.name}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+    <view class="progress-tip">
+      再消费 ¥{{(nextLevel.need_consume - userInfo.total_consume).toFixed(2)}} 即可升级
+    </view>
+  </view>
+
+  <view class="privilege-section card">
+    <view class="section-title">会员特权</view>
+    <view class="privilege-grid">
+      <view 
+        wx:for="{{privileges}}" 
+        wx:key="name"
+        class="privilege-item {{!item.enabled ? 'disabled' : ''}}"
+      >
+        <view class="privilege-icon">{{item.icon}}</view>
+        <view class="privilege-name">{{item.name}}</view>
+        <view class="privilege-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="levels-section card">
+    <view class="section-title">会员等级</view>
+    <view class="levels-list">
+      <view 
+        wx:for="{{levels}}" 
+        wx:key="id"
+        class="level-item {{item.id === currentLevel.id ? 'current' : ''}} {{item.id > currentLevel.id ? 'locked' : ''}}"
+        bindtap="onLevelTap"
+        data-level="{{item}}"
+      >
+        <view class="level-badge">{{item.name}}</view>
+        <view class="level-info">
+          <text class="level-condition">满{{item.need_consume}}元</text>
+          <text class="level-discount">{{item.discount / 10}}折</text>
+        </view>
+        <view class="level-status">
+          <text wx:if="{{item.id === currentLevel.id}}">当前</text>
+          <text wx:elif="{{item.id < currentLevel.id}}">已达成</text>
+          <text wx:else>未达成</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="recharge-section">
+    <view class="btn btn-primary btn-block btn-recharge" bindtap="onRecharge">
+      <image src="/images/charge.png" class="btn-icon"></image>
+      充值升级会员
+    </view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

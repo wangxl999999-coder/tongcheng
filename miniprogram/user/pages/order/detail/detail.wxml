@@ -1,0 +1,246 @@
+<view class="container" wx:if="{{order}}">
+  <view class="status-section" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)">
+    <view class="status-icon">✓</view>
+    <view class="status-text">
+      <view class="status-title">{{order.status_text}}</view>
+      <view class="status-desc" wx:if="{{order.status === 0}}">请在24小时内完成支付</view>
+      <view class="status-desc" wx:elif="{{order.status === 1}}">等待系统为您指派服务人员</view>
+      <view class="status-desc" wx:elif="{{order.status === 2}}">等待服务人员接单</view>
+      <view class="status-desc" wx:elif="{{order.status === 3}}">服务人员已接单，等待服务</view>
+      <view class="status-desc" wx:elif="{{order.status === 4}}">服务人员正在前往服务地点</view>
+      <view class="status-desc" wx:elif="{{order.status === 5}}">有服务加项，请及时支付差额</view>
+      <view class="status-desc" wx:elif="{{order.status === 6}}">服务已完成，感谢您的支持</view>
+    </view>
+  </view>
+
+  <view class="timeline-section card">
+    <view class="timeline-title">订单状态</view>
+    <view class="timeline-list">
+      <view class="timeline-item done">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-text">订单已创建</view>
+          <view class="timeline-time">{{order.created_at * 1000}}</view>
+        </view>
+      </view>
+      <view class="timeline-item {{order.pay_time ? 'done' : ''}}">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-text">订单已支付</view>
+          <view class="timeline-time" wx:if="{{order.pay_time}}">{{order.pay_time * 1000}}</view>
+        </view>
+      </view>
+      <view class="timeline-item {{order.technician_id ? 'done' : ''}}">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-text">已派单</view>
+          <view class="timeline-time" wx:if="{{order.dispatch_time}}">{{order.dispatch_time * 1000}}</view>
+        </view>
+      </view>
+      <view class="timeline-item {{order.start_time ? 'done' : ''}}">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-text">服务已开始</view>
+          <view class="timeline-time" wx:if="{{order.start_time}}">{{order.start_time * 1000}}</view>
+        </view>
+      </view>
+      <view class="timeline-item {{order.finish_time ? 'done' : ''}}">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-text">服务已完成</view>
+          <view class="timeline-time" wx:if="{{order.finish_time}}">{{order.finish_time * 1000}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="service-section card" bindtap="onServiceTap">
+    <image class="service-cover" src="{{order.service_cover}}" mode="aspectFill"></image>
+    <view class="service-info">
+      <view class="service-name">{{order.service_name}}</view>
+      <view class="service-spec" wx:if="{{order.spec_name}}">规格：{{order.spec_name}}</view>
+      <view class="service-time">服务时间：{{order.service_time * 1000}}</view>
+      <view class="service-duration">服务时长：{{order.duration}}分钟</view>
+    </view>
+    <view class="service-price">
+      <text class="price">¥{{order.price}}</text>
+    </view>
+  </view>
+
+  <view class="technician-section card" bindtap="onTechnicianTap" wx:if="{{order.technician_id}}">
+    <view class="section-title">服务技师</view>
+    <view class="technician-info">
+      <image class="tech-avatar" src="{{order.technician_avatar || '/images/default-avatar.png'}}"></image>
+      <view class="tech-detail">
+        <view class="tech-name">{{order.technician_name}}</view>
+        <view class="tech-phone">{{order.technician_mobile}}</view>
+        <view class="tech-rating">⭐ {{order.technician_rating || '5.0'}}</view>
+      </view>
+      <image src="/images/arrow-right.png" class="arrow-right"></image>
+    </view>
+  </view>
+
+  <view class="address-section card" wx:if="{{order.service_type === 1 && order.address_info}}">
+    <view class="section-title">服务地址</view>
+    <view class="address-info">
+      <view class="address-top">
+        <text class="address-name">{{order.contact_name}}</text>
+        <text class="address-phone">{{order.contact_mobile}}</text>
+      </view>
+      <view class="address-detail">
+        {{order.address_info.province}}{{order.address_info.city}}{{order.address_info.district}}{{order.address_info.detail}}
+      </view>
+    </view>
+  </view>
+
+  <view class="store-section card" wx:if="{{order.service_type === 2 && order.store_name}}">
+    <view class="section-title">服务门店</view>
+    <view class="store-info">
+      <view class="store-name">{{order.store_name}}</view>
+      <view class="store-address">{{order.store_address}}</view>
+      <view class="store-phone">📞 {{order.store_mobile}}</view>
+    </view>
+  </view>
+
+  <view class="amount-section card">
+    <view class="section-title">费用明细</view>
+    <view class="amount-list">
+      <view class="amount-item">
+        <text class="amount-label">服务费用</text>
+        <text class="amount-value">¥{{order.total_amount}}</text>
+      </view>
+      <view class="amount-item" wx:if="{{order.coupon_amount > 0}}">
+        <text class="amount-label">优惠券</text>
+        <text class="amount-value discount">-¥{{order.coupon_amount}}</text>
+      </view>
+      <view class="amount-item" wx:if="{{order.discount_amount > order.coupon_amount}}">
+        <text class="amount-label">会员折扣</text>
+        <text class="amount-value discount">-¥{{order.discount_amount - order.coupon_amount}}</text>
+      </view>
+      <view class="amount-item" wx:if="{{order.balance_amount > 0}}">
+        <text class="amount-label">余额抵扣</text>
+        <text class="amount-value discount">-¥{{order.balance_amount}}</text>
+      </view>
+      <view class="amount-item" wx:if="{{order.addon_amount > 0}}">
+        <text class="amount-label">加项服务</text>
+        <text class="amount-value addon">+¥{{order.addon_amount}}</text>
+      </view>
+    </view>
+    <view class="amount-total">
+      <text class="total-label">实付金额</text>
+      <text class="total-value">¥{{order.pay_amount}}</text>
+    </view>
+  </view>
+
+  <view class="addon-section card" wx:if="{{order.addons && order.addons.length > 0}}">
+    <view class="section-title">加项服务</view>
+    <view class="addon-list">
+      <view class="addon-item" wx:for="{{order.addons}}" wx:key="id">
+        <text class="addon-name">{{item.name}}</text>
+        <text class="addon-spec">{{item.quantity}}份</text>
+        <text class="addon-price">¥{{item.total}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="review-section card" wx:if="{{order.review}}">
+    <view class="section-title">我的评价</view>
+    <view class="review-content">
+      <view class="review-stars">
+        <text wx:for="{{order.review.rating}}" wx:for-item="star" wx:key="index">⭐</text>
+      </view>
+      <view class="review-text">{{order.review.content}}</view>
+      <view class="review-images" wx:if="{{order.review.images && order.review.images.length > 0}}">
+        <image 
+          wx:for="{{order.review.images}}" 
+          wx:for-item="img" 
+          wx:key="*this"
+          src="{{img}}" 
+          class="review-image"
+          mode="aspectFill"
+        ></image>
+      </view>
+      <view class="review-time">{{order.review.created_at * 1000}}</view>
+    </view>
+  </view>
+
+  <view class="order-info-section card">
+    <view class="section-title">订单信息</view>
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">订单编号</text>
+        <text class="info-value">{{order.order_no}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">下单时间</text>
+        <text class="info-value">{{order.created_at * 1000}}</text>
+      </view>
+      <view class="info-item" wx:if="{{order.pay_time}}">
+        <text class="info-label">支付时间</text>
+        <text class="info-value">{{order.pay_time * 1000}}</text>
+      </view>
+      <view class="info-item" wx:if="{{order.pay_type > 0}}">
+        <text class="info-label">支付方式</text>
+        <text class="info-value">{{order.pay_type === 1 ? '微信支付' : '余额支付'}}</text>
+      </view>
+      <view class="info-item" wx:if="{{order.remark}}">
+        <text class="info-label">订单备注</text>
+        <text class="info-value">{{order.remark}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="bar-left">
+      <view class="bar-item" bindtap="onContact">
+        <image src="/images/call.png" class="bar-icon"></image>
+        <text>联系</text>
+      </view>
+      <view class="bar-item" bindtap="onComplaint">
+        <image src="/images/complaint.png" class="bar-icon"></image>
+        <text>投诉</text>
+      </view>
+    </view>
+    <view class="bar-right">
+      <view 
+        class="btn btn-outline btn-bottom" 
+        bindtap="onCancel" 
+        wx:if="{{order.status === 0 || order.status === 1 || order.status === 2}}"
+      >
+        取消订单
+      </view>
+      <view 
+        class="btn btn-primary btn-bottom" 
+        bindtap="onDispatch" 
+        wx:if="{{order.status === 1}}"
+      >
+        选择技师
+      </view>
+      <view 
+        class="btn btn-primary btn-bottom" 
+        bindtap="onPay" 
+        wx:if="{{order.status === 0 || order.status === 5}}"
+      >
+        立即支付
+      </view>
+      <view 
+        class="btn btn-outline btn-bottom" 
+        bindtap="onAddon" 
+        wx:if="{{order.status === 3 || order.status === 4}}"
+      >
+        加项服务
+      </view>
+      <view 
+        class="btn btn-primary btn-bottom" 
+        bindtap="onReview" 
+        wx:if="{{order.status === 6 && !order.is_review}}"
+      >
+        去评价
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

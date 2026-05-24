@@ -1,0 +1,119 @@
+<view class="container">
+  <view class="header">
+    <view class="header-bg"></view>
+    <view class="user-info" wx:if="{{isLogin && userInfo}}" bindtap="onEditProfile">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+      <view class="user-detail">
+        <view class="user-top">
+          <text class="nickname">{{userInfo.nickname}}</text>
+          <view class="level-badge" wx:if="{{userInfo.level_name}}">
+            <text>{{userInfo.level_name}}</text>
+          </view>
+        </view>
+        <view class="user-mobile" wx:if="{{userInfo.mobile}}">
+          {{userInfo.mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}
+        </view>
+        <view class="user-mobile" wx:else>
+          <text class="bind-mobile" bindtap="onBindMobile">绑定手机号 ></text>
+        </view>
+      </view>
+      <image src="/images/arrow-right-white.png" class="arrow-right"></image>
+    </view>
+    <view class="user-info no-login" wx:else bindtap="onLogin">
+      <image class="avatar" src="/images/default-avatar.png"></image>
+      <view class="user-detail">
+        <text class="login-tip">点击登录 / 注册</text>
+        <text class="login-desc">登录享受更多优惠</text>
+      </view>
+    </view>
+
+    <view class="wallet-info" wx:if="{{isLogin && userInfo}}">
+      <view class="wallet-item" bindtap="onMenuTap" data-menu="{{{url: '/pages/mine/wallet'}}}">
+        <text class="wallet-value">{{userInfo.balance ? userInfo.balance.toFixed(2) : '0.00'}}</text>
+        <text class="wallet-label">余额(元)</text>
+      </view>
+      <view class="wallet-item" bindtap="onMenuTap" data-menu="{{{url: '/pages/mine/coupon'}}}">
+        <text class="wallet-value">{{userInfo.coupon_count || 0}}</text>
+        <text class="wallet-label">优惠券</text>
+      </view>
+      <view class="wallet-item" bindtap="onRecharge">
+        <text class="wallet-recharge">立即充值</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="order-section card" wx:if="{{isLogin}}">
+    <view class="section-header">
+      <text class="section-title">我的订单</text>
+      <view class="section-more" bindtap="onOrderTap" data-status="">
+        <text>全部订单</text>
+        <image src="/images/arrow-right.png" class="arrow-right"></image>
+      </view>
+    </view>
+    <view class="order-tabs">
+      <view class="order-tab" bindtap="onOrderTap" data-status="0">
+        <view class="tab-icon-wrapper">
+          <image src="/images/order-unpaid.png" class="tab-icon"></image>
+          <view class="tab-badge" wx:if="{{orderStatistics.unpaid > 0}}">{{orderStatistics.unpaid}}</view>
+        </view>
+        <text class="tab-text">待付款</text>
+      </view>
+      <view class="order-tab" bindtap="onOrderTap" data-status="1">
+        <view class="tab-icon-wrapper">
+          <image src="/images/order-pending.png" class="tab-icon"></image>
+          <view class="tab-badge" wx:if="{{orderStatistics.pending > 0}}">{{orderStatistics.pending}}</view>
+        </view>
+        <text class="tab-text">待服务</text>
+      </view>
+      <view class="order-tab" bindtap="onOrderTap" data-status="2">
+        <view class="tab-icon-wrapper">
+          <image src="/images/order-servicing.png" class="tab-icon"></image>
+          <view class="tab-badge" wx:if="{{orderStatistics.servicing > 0}}">{{orderStatistics.servicing}}</view>
+        </view>
+        <text class="tab-text">服务中</text>
+      </view>
+      <view class="order-tab" bindtap="onOrderTap" data-status="3">
+        <view class="tab-icon-wrapper">
+          <image src="/images/order-completed.png" class="tab-icon"></image>
+        </view>
+        <text class="tab-text">已完成</text>
+      </view>
+      <view class="order-tab" bindtap="onOrderTap" data-status="7">
+        <view class="tab-icon-wrapper">
+          <image src="/images/order-cancelled.png" class="tab-icon"></image>
+        </view>
+        <text class="tab-text">已取消</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section" wx:if="{{isLogin}}">
+    <block wx:for="{{menuList}}" wx:key="index">
+      <view class="menu-group card">
+        <view 
+          wx:for="{{item}}" 
+          wx:for-item="menu" 
+          wx:key="text"
+          class="menu-item"
+          bindtap="onMenuTap"
+          data-menu="{{menu}}"
+        >
+          <image class="menu-icon" src="{{menu.icon}}"></image>
+          <text class="menu-text">{{menu.text}}</text>
+          <image src="/images/arrow-right.png" class="arrow-right"></image>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="login-prompt card" wx:if="{{!isLogin}}">
+    <view class="prompt-text">登录后可查看订单、管理个人信息</view>
+    <view class="btn btn-primary" bindtap="onLogin">立即登录</view>
+  </view>
+
+  <view class="app-info">
+    <image src="/images/logo.png" class="app-logo"></image>
+    <text class="app-name">同城上门服务</text>
+    <text class="app-version">v1.0.0</text>
+  </view>
+</view>

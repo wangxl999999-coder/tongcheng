@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="address-list" wx:if="{{addresses.length > 0}}">
+    <view 
+      wx:for="{{addresses}}" 
+      wx:key="id"
+      class="address-item {{selectMode ? 'selectable' : ''}}"
+      bindtap="onSelectAddress"
+      data-address="{{item}}"
+    >
+      <view class="address-content">
+        <view class="address-top">
+          <text class="address-name">{{item.name}}</text>
+          <text class="address-phone">{{item.mobile}}</text>
+          <view class="address-tag" wx:if="{{item.tag}}">{{item.tag}}</view>
+          <view class="default-tag" wx:if="{{item.is_default}}">默认</view>
+        </view>
+        <view class="address-detail">
+          {{item.province}}{{item.city}}{{item.district}}{{item.detail}}
+        </view>
+      </view>
+      <view class="address-actions">
+        <view 
+          class="action-item"
+          catchtap="onSetDefault"
+          data-address="{{item}}"
+        >
+          <view class="radio {{item.is_default ? 'checked' : ''}}"></view>
+          <text>默认</text>
+        </view>
+        <view 
+          class="action-item"
+          catchtap="onEditAddress"
+          data-address="{{item}}"
+        >
+          <image src="/images/edit.png" class="action-icon"></image>
+          <text>编辑</text>
+        </view>
+        <view 
+          class="action-item"
+          catchtap="onDeleteAddress"
+          data-address="{{item}}"
+        >
+          <image src="/images/delete.png" class="action-icon"></image>
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{addresses.length === 0 && !loading}}">
+    <image src="/images/empty-address.png" class="empty-icon"></image>
+    <text class="empty-text">暂无收货地址</text>
+    <view class="btn btn-primary btn-empty" bindtap="onAddAddress">添加地址</view>
+  </view>
+
+  <view class="add-btn" wx:if="{{addresses.length > 0}}">
+    <view class="btn btn-primary btn-block" bindtap="onAddAddress">
+      <image src="/images/add-white.png" class="add-icon"></image>
+      新增收货地址
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

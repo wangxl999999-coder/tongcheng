@@ -1,0 +1,137 @@
+.container {
+  padding: 20rpx;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.avatar-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.avatar-label {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 4rpx solid #f5f5f5;
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 48rpx;
+  height: 48rpx;
+  background: #ff6b6b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  border: 4rpx solid #fff;
+}
+
+.form-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 0 30rpx;
+  margin-bottom: 40rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-item.column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.form-item.column .form-label {
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.form-textarea {
+  width: 100%;
+  font-size: 28rpx;
+  color: #333;
+  min-height: 120rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.submit-section {
+  padding: 0 30rpx 40rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border: none;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+}

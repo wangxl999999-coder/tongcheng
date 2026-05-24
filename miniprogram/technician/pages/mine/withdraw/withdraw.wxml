@@ -1,0 +1,179 @@
+<view class="container" wx:if="{{!loading}}">
+  <view class="amount-card">
+    <view class="amount-label">可提现金额</view>
+    <view class="amount-value">¥{{availableAmount}}</view>
+    <view class="withdraw-all" bindtap="onSelectAll">全部提现</view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">提现金额</view>
+    <view class="amount-input">
+      <text class="currency">¥</text>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入提现金额" 
+        value="{{withdrawAmount}}"
+        bindinput="onAmountInput"
+      />
+    </view>
+    <view class="amount-tip">最低提现金额：10元</view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">提现方式</view>
+    <view class="type-list">
+      <view 
+        class="type-item {{withdrawType === 1 ? 'active' : ''}}" 
+        data-type="1"
+        bindtap="onTypeChange"
+      >
+        <view class="type-icon">💳</view>
+        <view class="type-name">支付宝</view>
+        <view class="type-check">
+          <view class="checkbox {{withdrawType === 1 ? 'checked' : ''}}"></view>
+        </view>
+      </view>
+      <view 
+        class="type-item {{withdrawType === 2 ? 'active' : ''}}" 
+        data-type="2"
+        bindtap="onTypeChange"
+      >
+        <view class="type-icon">💬</view>
+        <view class="type-name">微信</view>
+        <view class="type-check">
+          <view class="checkbox {{withdrawType === 2 ? 'checked' : ''}}"></view>
+        </view>
+      </view>
+      <view 
+        class="type-item {{withdrawType === 3 ? 'active' : ''}}" 
+        data-type="3"
+        bindtap="onTypeChange"
+      >
+        <view class="type-icon">🏦</view>
+        <view class="type-name">银行卡</view>
+        <view class="type-check">
+          <view class="checkbox {{withdrawType === 3 ? 'checked' : ''}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{withdrawType === 1}}">
+    <view class="section-title">支付宝账号</view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">支付宝账号</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入支付宝账号" 
+          value="{{accountInfo.alipay_account}}"
+          data-field="alipay_account"
+          bindinput="onAccountInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">真实姓名</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入真实姓名" 
+          value="{{accountInfo.account_name}}"
+          data-field="account_name"
+          bindinput="onAccountInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{withdrawType === 2}}">
+    <view class="section-title">微信账号</view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">微信账号</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入微信账号" 
+          value="{{accountInfo.wechat_account}}"
+          data-field="wechat_account"
+          bindinput="onAccountInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">真实姓名</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入真实姓名" 
+          value="{{accountInfo.account_name}}"
+          data-field="account_name"
+          bindinput="onAccountInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{withdrawType === 3}}">
+    <view class="section-title">银行卡信息</view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">开户银行</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入开户银行" 
+          value="{{accountInfo.bank_name}}"
+          data-field="bank_name"
+          bindinput="onAccountInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">银行卡号</view>
+        <input 
+          class="form-input" 
+          type="number"
+          placeholder="请输入银行卡号" 
+          value="{{accountInfo.bank_account}}"
+          data-field="bank_account"
+          bindinput="onAccountInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">开户姓名</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入开户姓名" 
+          value="{{accountInfo.account_name}}"
+          data-field="account_name"
+          bindinput="onAccountInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{records.length > 0}}">
+    <view class="section-title">最近提现记录</view>
+    <view class="records-list">
+      <view class="record-item" wx:for="{{records}}" wx:key="id">
+        <view class="record-info">
+          <view class="record-amount">-¥{{item.amount}}</view>
+          <view class="record-time">{{item.create_time}}</view>
+        </view>
+        <view class="record-status {{item.status === 1 ? 'success' : item.status === 2 ? 'rejected' : ''}}">
+          {{item.status === 0 ? '处理中' : item.status === 1 ? '已到账' : '已拒绝'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <button 
+      class="submit-btn {{submitting ? 'disabled' : ''}}" 
+      bindtap="onSubmit"
+      disabled="{{submitting}}"
+    >
+      {{submitting ? '提交中...' : '提交申请'}}
+    </button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

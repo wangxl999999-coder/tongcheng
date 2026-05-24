@@ -1,0 +1,56 @@
+<view class="container">
+  <view class="order-info" wx:if="{{orderInfo}}">
+    <view class="info-row">
+      <text class="label">订单号：</text>
+      <text class="value">{{orderInfo.order_no}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">服务项目：</text>
+      <text class="value">{{orderInfo.service_name}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">服务人员：</text>
+      <text class="value">{{orderInfo.technician_name}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">选择加项项目</view>
+  
+  <view class="addon-list" wx:if="{{!loading}}">
+    <view 
+      class="addon-item {{item.selected ? 'selected' : ''}}" 
+      wx:for="{{addonList}}" 
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onAddonTap"
+    >
+      <image class="addon-image" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="addon-info">
+        <view class="addon-name">{{item.name}}</view>
+        <view class="addon-desc">{{item.desc}}</view>
+        <view class="addon-price">¥{{item.price}}</view>
+      </view>
+      <view class="addon-check">
+        <view class="checkbox {{item.selected ? 'checked' : ''}}">
+          <text wx:if="{{item.selected}}">✓</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{addonList.length === 0}}">
+      <text>暂无加项项目</text>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="bottom-bar" wx:if="{{selectedAddons.length > 0}}">
+    <view class="selected-info">
+      <text>已选 {{selectedAddons.length}} 项</text>
+      <text class="total">合计：¥{{totalAmount}}</text>
+    </view>
+    <button class="submit-btn" bindtap="onSubmit">确认加项</button>
+  </view>
+</view>

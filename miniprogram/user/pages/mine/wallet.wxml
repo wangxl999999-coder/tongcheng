@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="balance-card">
+    <view class="balance-bg"></view>
+    <view class="balance-content">
+      <view class="balance-label">账户余额（元）</view>
+      <view class="balance-amount">{{balance.toFixed(2)}}</view>
+      <view class="balance-info">
+        <view class="info-item">
+          <text class="info-value">{{totalRecharge.toFixed(2)}}</text>
+          <text class="info-label">累计充值</text>
+        </view>
+        <view class="info-item">
+          <text class="info-value">{{totalConsume.toFixed(2)}}</text>
+          <text class="info-label">累计消费</text>
+        </view>
+      </view>
+    </view>
+    <view class="balance-actions">
+      <view class="action-btn recharge" bindtap="onRecharge">
+        <text class="btn-icon">¥</text>
+        <text>充值</text>
+      </view>
+      <view class="action-btn withdraw" bindtap="onWithdraw">
+        <text class="btn-icon">提</text>
+        <text>提现</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <view 
+      wx:for="{{tabs}}" 
+      wx:key="*this"
+      class="tab-item {{currentTab === index ? 'active' : ''}}"
+      bindtap="onTabTap"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </view>
+
+  <view class="records-list">
+    <view class="record-item" wx:for="{{records}}" wx:key="id">
+      <view class="record-left">
+        <view class="record-name">{{item.title}}</view>
+        <view class="record-desc">{{item.remark || ''}}</view>
+        <view class="record-time">{{item.created_at * 1000}}</view>
+      </view>
+      <view class="record-right">
+        <text class="record-amount {{item.type === 1 || item.type === 3 ? 'plus' : 'minus'}}">
+          {{item.type === 1 || item.type === 3 ? '+' : '-'}}{{item.amount.toFixed(2)}}
+        </text>
+        <text class="record-balance">余额 ¥{{item.balance.toFixed(2)}}</text>
+      </view>
+    </view>
+    
+    <view class="empty" wx:if="{{records.length === 0 && !loading}}">
+      <text>暂无记录</text>
+    </view>
+    
+    <view class="load-more" wx:if="{{!hasMore && records.length > 0}}">
+      <text>- 没有更多了 -</text>
+    </view>
+  </view>
+</view>

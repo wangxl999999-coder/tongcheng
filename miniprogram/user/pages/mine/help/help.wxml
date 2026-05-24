@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="search-box">
+    <icon type="search" size="32" color="#999"></icon>
+    <input class="search-input" placeholder="搜索问题" confirm-type="search" />
+  </view>
+
+  <view class="help-list" wx:if="{{!loading}}">
+    <view 
+      class="help-item {{expandedId === item.id ? 'expanded' : ''}}" 
+      wx:for="{{helpList}}" 
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onItemTap"
+    >
+      <view class="help-header">
+        <text class="help-title">{{item.title}}</text>
+        <view class="arrow {{expandedId === item.id ? 'up' : ''}}">▼</view>
+      </view>
+      <view class="help-content" wx:if="{{expandedId === item.id}}">
+        {{item.content}}
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="contact-section">
+    <view class="contact-title">没有找到您的问题？</view>
+    <button class="contact-btn" bindtap="onContactService">联系客服</button>
+  </view>
+</view>

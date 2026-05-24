@@ -1,0 +1,95 @@
+<view class="container" wx:if="{{!loading}}">
+  <view class="avatar-section">
+    <view class="avatar-label">头像</view>
+    <view class="avatar-wrapper" bindtap="onChooseAvatar">
+      <image class="avatar" src="{{form.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <view class="avatar-edit">📷</view>
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="form-item">
+      <view class="form-label">姓名</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入姓名" 
+        value="{{form.name}}"
+        data-field="name"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">手机号</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入手机号" 
+        type="number"
+        value="{{form.phone}}"
+        data-field="phone"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">身份证号</view>
+      <input 
+        class="form-input" 
+        placeholder="请输入身份证号" 
+        value="{{form.id_card}}"
+        data-field="id_card"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="form-item column">
+      <view class="form-label">服务技能</view>
+      <checkbox-group bindchange="onSkillChange">
+        <view class="skill-list">
+          <label class="skill-item" wx:for="{{skillOptions}}" wx:key="id">
+            <checkbox 
+              value="{{item.id}}" 
+              checked="{{form.skills.includes(item.id)}}" 
+              color="#ff6b6b"
+            />
+            <text>{{item.name}}</text>
+          </label>
+        </view>
+      </checkbox-group>
+    </view>
+
+    <view class="form-item column">
+      <view class="form-label">个人简介</view>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入个人简介" 
+        value="{{form.intro}}"
+        data-field="intro"
+        bindinput="onInput"
+        maxlength="200"
+        auto-height
+      ></textarea>
+    </view>
+
+    <view class="form-item column">
+      <view class="form-label">从业经验</view>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入从业经验" 
+        value="{{form.experience}}"
+        data-field="experience"
+        bindinput="onInput"
+        maxlength="200"
+        auto-height
+      ></textarea>
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="onSubmit">保存</button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

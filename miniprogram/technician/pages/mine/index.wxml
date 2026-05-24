@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="header" wx:if="{{technicianInfo}}">
+    <view class="status-bar"></view>
+    <view class="user-info">
+      <image class="avatar" src="{{technicianInfo.avatar}}" mode="aspectFill" bindtap="onEditInfo"></image>
+      <view class="info">
+        <view class="name-row">
+          <text class="name">{{technicianInfo.name}}</text>
+          <view class="online-switch" bindtap="onToggleOnline">
+            <view class="switch {{technicianInfo.online_status === 1 ? 'on' : ''}}">
+              <view class="switch-dot"></view>
+            </view>
+            <text class="switch-text">{{technicianInfo.online_status === 1 ? '在线' : '离线'}}</text>
+          </view>
+        </view>
+        <view class="level-row">
+          <text class="tag tag-primary">Lv.{{technicianInfo.level}}</text>
+          <text class="phone">{{technicianInfo.phone}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="stats-row">
+      <view class="stat-item">
+        <view class="stat-value">{{stats.totalOrders}}</view>
+        <view class="stat-label">累计接单</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-value price">¥{{stats.totalIncome}}</view>
+        <view class="stat-label">累计收入</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-value">{{stats.rating}}</view>
+        <view class="stat-label">综合评分</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-group">
+      <view 
+        class="menu-item" 
+        wx:for="{{menuList}}" 
+        wx:key="id"
+        data-url="{{item.url}}"
+        bindtap="onMenuTap"
+      >
+        <view class="menu-icon">{{item.icon}}</view>
+        <text class="menu-name">{{item.name}}</text>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <view class="version-info">
+    <text>版本 v1.0.0</text>
+  </view>
+</view>

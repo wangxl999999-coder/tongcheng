@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="category-container">
+    <scroll-view class="category-left" scroll-y="{{true}}">
+      <view 
+        wx:for="{{categories}}" 
+        wx:key="id"
+        class="category-item {{item.id === currentCategoryId ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-category="{{item}}"
+      >
+        <view class="category-bar" wx:if="{{item.id === currentCategoryId}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <scroll-view class="category-right" scroll-y="{{true}}">
+      <view class="right-content" wx:if="{{currentCategory}}">
+        <view class="sub-categories" wx:if="{{currentCategory.children && currentCategory.children.length > 0}}">
+          <view 
+            wx:for="{{currentCategory.children}}" 
+            wx:key="id"
+            class="sub-category-item"
+            bindtap="onSubCategoryTap"
+            data-subcategory="{{item}}"
+          >
+            <image class="sub-icon" src="{{item.icon}}" mode="aspectFit"></image>
+            <text class="sub-name">{{item.name}}</text>
+          </view>
+        </view>
+
+        <view class="section-header" wx:if="{{services.length > 0}}">
+          <text class="section-title">热门服务</text>
+          <view class="section-more" bindtap="onViewAll">
+            查看全部
+          </view>
+        </view>
+
+        <view class="service-grid" wx:if="{{services.length > 0}}">
+          <view 
+            class="service-card" 
+            wx:for="{{services}}" 
+            wx:key="id"
+            bindtap="onServiceTap"
+            data-service="{{item}}"
+          >
+            <image class="service-cover" src="{{item.cover}}" mode="aspectFill"></image>
+            <view class="service-info">
+              <view class="service-name text-ellipsis">{{item.name}}</view>
+              <view class="service-desc text-ellipsis">{{item.desc || item.category_name}}</view>
+              <view class="service-bottom">
+                <text class="price">¥{{item.price}}</text>
+                <text class="service-sales">月销{{item.sales || 0}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="empty" wx:if="{{services.length === 0}}">
+          <image src="/images/empty.png"></image>
+          <text>暂无服务项目</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
