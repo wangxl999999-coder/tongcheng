@@ -8,7 +8,7 @@ return [
         'port' => 3306,
         'name' => 'tongcheng',
         'user' => 'root',
-        'pwd' => 'root',
+        'pwd' => '123123',
         'charset' => 'utf8mb4'
     ],
     
