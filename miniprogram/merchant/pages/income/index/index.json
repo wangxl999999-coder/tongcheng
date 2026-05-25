@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "收入统计",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true
+}

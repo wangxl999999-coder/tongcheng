@@ -1,0 +1,84 @@
+<view class="container">
+  <view class="summary-card">
+    <view class="summary-header">
+      <view class="summary-title">累计收入</view>
+      <view class="summary-amount">¥{{summary.total_amount}}</view>
+    </view>
+    
+    <view class="summary-grid">
+      <view class="summary-item">
+        <view class="item-value">{{summary.order_count}}</view>
+        <view class="item-label">订单数</view>
+      </view>
+      <view class="summary-item">
+        <view class="item-value">¥{{summary.service_amount}}</view>
+        <view class="item-label">服务收入</view>
+      </view>
+      <view class="summary-item">
+        <view class="item-value">¥{{summary.withdraw_amount}}</view>
+        <view class="item-label">已提现</view>
+      </view>
+    </view>
+
+    <view class="available-row">
+      <view class="available-label">可提现金额</view>
+      <view class="available-amount">¥{{summary.available_amount}}</view>
+      <button class="withdraw-btn" bindtap="onWithdraw">提现</button>
+    </view>
+  </view>
+
+  <view class="period-tabs">
+    <view 
+      class="period-tab {{period === 'week' ? 'active' : ''}}" 
+      data-period="week"
+      bindtap="onPeriodChange"
+    >
+      本周
+    </view>
+    <view 
+      class="period-tab {{period === 'month' ? 'active' : ''}}" 
+      data-period="month"
+      bindtap="onPeriodChange"
+    >
+      本月
+    </view>
+    <view 
+      class="period-tab {{period === 'all' ? 'active' : ''}}" 
+      data-period="all"
+      bindtap="onPeriodChange"
+    >
+      全部
+    </view>
+  </view>
+
+  <view class="records-section">
+    <view class="records-title">收入明细</view>
+    
+    <view class="records-list">
+      <view class="record-item" wx:for="{{records}}" wx:key="id">
+        <view class="record-icon {{item.type === 1 ? 'income' : 'withdraw'}}">
+          {{item.type === 1 ? '💰' : '💳'}}
+        </view>
+        <view class="record-info">
+          <view class="record-title">{{item.title}}</view>
+          <view class="record-time">{{item.create_time_text}}</view>
+        </view>
+        <view class="record-amount {{item.type === 1 ? 'income' : 'withdraw'}}">
+          {{item.type === 1 ? '+' : '-'}}¥{{item.amount}}
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{records.length === 0 && !loading}}">
+        <text>暂无记录</text>
+      </view>
+
+      <view class="load-more" wx:if="{{loading && records.length > 0}}">
+        <text>加载中...</text>
+      </view>
+
+      <view class="no-more" wx:if="{{!hasMore && records.length > 0}}">
+        <text>没有更多了</text>
+      </view>
+    </view>
+  </view>
+</view>

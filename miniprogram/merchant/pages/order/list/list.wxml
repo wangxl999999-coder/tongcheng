@@ -1,0 +1,96 @@
+<view class="container">
+  <view class="tabs">
+    <scroll-view scroll-x="true" class="tabs-scroll">
+      <view 
+        class="tab-item {{activeTab === item.id ? 'active' : ''}}" 
+        wx:for="{{tabs}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onTabChange"
+      >
+        {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="order-list">
+    <view 
+      class="order-item" 
+      wx:for="{{orders}}" 
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onOrderDetail"
+    >
+      <view class="order-header">
+        <view class="order-no">{{item.order_no}}</view>
+        <view class="order-status" style="color: {{item.status_color}}">
+          {{item.status_text}}
+        </view>
+      </view>
+
+      <view class="order-info">
+        <image class="service-image" src="{{item.service_image}}" mode="aspectFill"></image>
+        <view class="service-detail">
+          <view class="service-name">{{item.service_name}}</view>
+          <view class="service-spec">{{item.spec_name || ''}}</view>
+          <view class="appointment-time">
+            <text class="label">预约：</text>
+            {{item.appointment_time}}
+          </view>
+          <view class="address" wx:if="{{item.address}}">
+            <text class="label">地址：</text>
+            {{item.address}}
+          </view>
+        </view>
+      </view>
+
+      <view class="user-row">
+        <view class="user-info">
+          <text class="user-name">{{item.user_name}}</text>
+          <text class="user-phone">{{item.user_phone}}</text>
+        </view>
+        <view class="order-amount">
+          ¥<text class="price">{{item.amount}}</text>
+        </view>
+      </view>
+
+      <view class="order-actions" catchtap="noop">
+        <button 
+          class="action-btn outline" 
+          catchtap="onContactUser"
+          data-phone="{{item.user_phone}}"
+        >
+          联系用户
+        </button>
+        <button 
+          class="action-btn secondary" 
+          wx:if="{{item.status === 0}}"
+          catchtap="onCancelOrder"
+          data-id="{{item.id}}"
+        >
+          取消订单
+        </button>
+        <button 
+          class="action-btn primary" 
+          wx:if="{{item.status === 1}}"
+          catchtap="onDispatchOrder"
+          data-id="{{item.id}}"
+        >
+          立即派单
+        </button>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{orders.length === 0 && !loading}}">
+      <text>暂无订单</text>
+    </view>
+
+    <view class="load-more" wx:if="{{loading && orders.length > 0}}">
+      <text>加载中...</text>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && orders.length > 0}}">
+      <text>没有更多了</text>
+    </view>
+  </view>
+</view>

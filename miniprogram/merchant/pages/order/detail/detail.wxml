@@ -1,0 +1,153 @@
+<view class="container" wx:if="{{order && !loading}}">
+  <view class="status-card">
+    <view class="status-text" style="color: {{order.status_color}}">{{order.status_text}}</view>
+    <view class="status-tip" wx:if="{{order.status === 1}}">请及时为订单指派技师</view>
+    <view class="status-tip" wx:if="{{order.status === 3}}">技师将在预约时间到达</view>
+    <view class="status-tip" wx:if="{{order.status === 9}}">请使用核销功能进行核销</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">订单信息</view>
+    <view class="info-card">
+      <view class="info-row" bindtap="onCopyOrderNo">
+        <view class="info-label">订单编号</view>
+        <view class="info-value">{{order.order_no}} <text class="copy-tip">点击复制</text></view>
+      </view>
+      <view class="info-row">
+        <view class="info-label">下单时间</view>
+        <view class="info-value">{{order.create_time}}</view>
+      </view>
+      <view class="info-row">
+        <view class="info-label">预约时间</view>
+        <view class="info-value">{{order.appointment_time}}</view>
+      </view>
+      <view class="info-row" wx:if="{{order.pay_time}}">
+        <view class="info-label">支付时间</view>
+        <view class="info-value">{{order.pay_time}}</view>
+      </view>
+      <view class="info-row" wx:if="{{order.pay_type}}">
+        <view class="info-label">支付方式</view>
+        <view class="info-value">{{order.pay_type === 1 ? '微信支付' : order.pay_type === 2 ? '余额支付' : '其他'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">服务项目</view>
+    <view class="service-card">
+      <image class="service-image" src="{{order.service_image}}" mode="aspectFill"></image>
+      <view class="service-info">
+        <view class="service-name">{{order.service_name}}</view>
+        <view class="service-spec" wx:if="{{order.spec_name}}">{{order.spec_name}}</view>
+        <view class="service-duration">服务时长：{{order.service_duration}}分钟</view>
+        <view class="service-type">
+          <text class="tag tag-primary">{{order.service_type === 1 ? '上门服务' : '到店核销'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{order.address}}">
+    <view class="section-title">服务地址</view>
+    <view class="info-card">
+      <view class="info-row">
+        <view class="info-value">{{order.address}}</view>
+      </view>
+      <view class="info-row">
+        <view class="info-value">{{order.user_name}} {{order.user_phone}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{order.technician_id}}">
+    <view class="section-title">服务技师</view>
+    <view class="technician-card">
+      <image class="technician-avatar" src="{{order.technician_avatar}}" mode="aspectFill"></image>
+      <view class="technician-info">
+        <view class="technician-name">{{order.technician_name}}</view>
+        <view class="technician-rating">
+          <text class="star">⭐</text> {{order.technician_rating}}
+          <text class="orders">| {{order.technician_orders}}单</text>
+        </view>
+        <view class="technician-phone">{{order.technician_phone}}</view>
+      </view>
+      <button class="contact-btn" bindtap="onContactTechnician">联系</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">订单进度</view>
+    <view class="timeline">
+      <view 
+        class="timeline-item {{item.done ? 'done' : ''}} {{item.first ? 'first' : ''}}" 
+        wx:for="{{timeline}}" 
+        wx:key="title"
+      >
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-title">{{item.title}}</view>
+          <view class="timeline-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">费用明细</view>
+    <view class="fee-card">
+      <view class="fee-row">
+        <view class="fee-label">服务费用</view>
+        <view class="fee-value">¥{{order.service_price}}</view>
+      </view>
+      <view class="fee-row" wx:if="{{order.coupon_amount > 0}}">
+        <view class="fee-label">优惠券抵扣</view>
+        <view class="fee-value discount">-¥{{order.coupon_amount}}</view>
+      </view>
+      <view class="fee-row" wx:if="{{order.balance_amount > 0}}">
+        <view class="fee-label">余额抵扣</view>
+        <view class="fee-value discount">-¥{{order.balance_amount}}</view>
+      </view>
+      <view class="fee-row" wx:if="{{order.supplement_amount > 0}}">
+        <view class="fee-label">补差价</view>
+        <view class="fee-value">+¥{{order.supplement_amount}}</view>
+      </view>
+      <view class="fee-row" wx:if="{{order.addon_amount > 0}}">
+        <view class="fee-label">加项费用</view>
+        <view class="fee-value">+¥{{order.addon_amount}}</view>
+      </view>
+      <view class="fee-row total">
+        <view class="fee-label">实付金额</view>
+        <view class="fee-value total-price">¥{{order.amount}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{order.remark}}">
+    <view class="section-title">订单备注</view>
+    <view class="info-card">
+      <view class="info-value">{{order.remark}}</view>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="action-btn outline" bindtap="onContactUser">联系用户</button>
+    <button 
+      class="action-btn secondary" 
+      wx:if="{{order.status === 0 || order.status === 1}}"
+      bindtap="onCancelOrder"
+    >
+      取消订单
+    </button>
+    <button 
+      class="action-btn primary" 
+      wx:if="{{order.status === 1}}"
+      bindtap="onDispatchOrder"
+    >
+      立即派单
+    </button>
+  </view>
+</view>
+
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

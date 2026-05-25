@@ -1,0 +1,83 @@
+<view class="container">
+  <view class="header">
+    <view class="logo">🏪</view>
+    <view class="title">商家端登录</view>
+    <view class="subtitle">同城上门服务</view>
+  </view>
+
+  <view class="login-box">
+    <view class="tab-bar">
+      <view class="tab-item {{loginType === 1 ? 'active' : ''}}" data-type="1" bindtap="onTabChange">密码登录</view>
+      <view class="tab-item {{loginType === 2 ? 'active' : ''}}" data-type="2" bindtap="onTabChange">验证码登录</view>
+    </view>
+
+    <view class="login-form">
+      <view class="form-item">
+        <view class="form-icon">📱</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入手机号" 
+          type="number"
+          maxlength="11"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+        />
+      </view>
+      
+      <view class="form-item" wx:if="{{loginType === 1}}">
+        <view class="form-icon">🔐</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入密码" 
+          password
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+
+      <view class="form-item" wx:if="{{loginType === 2}}">
+        <view class="form-icon">🔑</view>
+        <input 
+          class="form-input" 
+          placeholder="请输入验证码" 
+          type="number"
+          maxlength="6"
+          value="{{code}}"
+          bindinput="onCodeInput"
+        />
+        <button 
+          class="code-btn {{sending ? 'disabled' : ''}}" 
+          bindtap="onSendCode"
+          disabled="{{sending}}"
+        >
+          {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+        </button>
+      </view>
+
+      <button class="login-btn" bindtap="onLogin">登录</button>
+    </view>
+
+    <view class="agreement">
+      <checkbox-group bindchange="onAgreementChange">
+        <label class="checkbox-label">
+          <checkbox value="1" checked="{{agreementChecked}}" color="#ff6b6b"/>
+          <text class="agreement-text">我已阅读并同意</text>
+        </label>
+      </checkbox-group>
+      <text class="agreement-link" bindtap="onShowAgreement">《用户协议》</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link" bindtap="onShowPrivacy">《隐私政策》</text>
+    </view>
+
+    <view class="divider">
+      <view class="divider-line"></view>
+      <text class="divider-text">其他登录方式</text>
+      <view class="divider-line"></view>
+    </view>
+
+    <button class="wx-btn" bindtap="onWxLogin">
+      <text class="wx-icon">💬</text>
+      微信一键登录
+    </button>
+  </view>
+</view>

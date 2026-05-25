@@ -1,0 +1,110 @@
+<view class="container">
+  <view class="tabs">
+    <view 
+      class="tab-item {{tabActive === 0 ? 'active' : ''}}" 
+      data-active="0"
+      bindtap="onTabChange"
+    >
+      扫码核销
+    </view>
+    <view 
+      class="tab-item {{tabActive === 1 ? 'active' : ''}}" 
+      data-active="1"
+      bindtap="onTabChange"
+    >
+      核销记录
+    </view>
+  </view>
+
+  <view class="verify-panel" wx:if="{{tabActive === 0}}">
+    <view class="scan-area" bindtap="onScanCode">
+      <view class="scan-icon">📷</view>
+      <view class="scan-text">点击扫码核销</view>
+      <view class="scan-tip">扫描订单二维码进行核销</view>
+    </view>
+
+    <view class="divider">
+      <text class="divider-text">或</text>
+    </view>
+
+    <view class="input-area">
+      <view class="input-label">手动输入订单号</view>
+      <view class="input-row">
+        <input 
+          class="input-field" 
+          placeholder="请输入订单号" 
+          value="{{orderNo}}"
+          bindinput="onOrderNoInput"
+        />
+        <button class="query-btn" bindtap="onQuery">查询</button>
+      </view>
+    </view>
+
+    <view class="result-card" wx:if="{{scanResult}}">
+      <view class="result-header">
+        <view class="result-title">订单信息</view>
+        <view class="close-btn" bindtap="onClearResult">×</view>
+      </view>
+      
+      <view class="result-body">
+        <view class="order-no">订单号：{{scanResult.order_no}}</view>
+        <view class="order-info-row">
+          <image class="service-image" src="{{scanResult.service_image}}" mode="aspectFill"></image>
+          <view class="service-info">
+            <view class="service-name">{{scanResult.service_name}}</view>
+            <view class="service-spec" wx:if="{{scanResult.spec_name}}">{{scanResult.spec_name}}</view>
+            <view class="appointment-time">预约时间：{{scanResult.appointment_time}}</view>
+          </view>
+        </view>
+        <view class="user-row">
+          <text class="user-name">{{scanResult.user_name}}</text>
+          <text class="user-phone">{{scanResult.user_phone}}</text>
+        </view>
+        <view class="amount-row">
+          <text class="amount-label">订单金额</text>
+          <text class="amount-value price">¥{{scanResult.amount}}</text>
+        </view>
+      </view>
+
+      <view class="result-footer">
+        <button 
+          class="verify-btn {{verifying ? 'disabled' : ''}}" 
+          bindtap="onVerify"
+          disabled="{{verifying}}"
+        >
+          {{verifying ? '核销中...' : '确认核销'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view class="records-panel" wx:if="{{tabActive === 1}}">
+    <view class="records-list">
+      <view 
+        class="record-item" 
+        wx:for="{{recentList}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onOrderDetail"
+      >
+        <view class="record-header">
+          <view class="record-order-no">{{item.order_no}}</view>
+          <view class="record-status" style="color: {{item.status_color}}">{{item.status_text}}</view>
+        </view>
+        <view class="record-body">
+          <image class="record-image" src="{{item.service_image}}" mode="aspectFill"></image>
+          <view class="record-info">
+            <view class="record-service">{{item.service_name}}</view>
+            <view class="record-user">{{item.user_name}} {{item.user_phone}}</view>
+            <view class="record-time" wx:if="{{item.verify_time_text}}">核销时间：{{item.verify_time_text}}</view>
+          </view>
+          <view class="record-amount">¥{{item.amount}}</view>
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{recentList.length === 0}}">
+        <text>暂无核销记录</text>
+      </view>
+    </view>
+  </view>
+</view>

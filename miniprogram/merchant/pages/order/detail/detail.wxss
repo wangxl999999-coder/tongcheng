@@ -1,0 +1,348 @@
+.container {
+  padding: 20rpx;
+  padding-bottom: 140rpx;
+}
+
+.status-card {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  border-radius: 16rpx;
+  padding: 40rpx;
+  color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.status-text {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+
+.status-tip {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  padding-left: 10rpx;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 0 30rpx;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 28rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 28rpx;
+  color: #333;
+  text-align: right;
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.copy-tip {
+  font-size: 22rpx;
+  color: #ff6b6b;
+  margin-left: 10rpx;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  gap: 20rpx;
+}
+
+.service-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.service-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.service-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.service-spec {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.service-duration {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+}
+
+.tag-primary {
+  background: #ffebee;
+  color: #ff6b6b;
+}
+
+.technician-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.technician-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.technician-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.technician-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.technician-rating {
+  font-size: 24rpx;
+  color: #ff9800;
+  margin-bottom: 8rpx;
+}
+
+.orders {
+  color: #999;
+  margin-left: 12rpx;
+}
+
+.technician-phone {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.contact-btn {
+  background: #ffebee;
+  color: #ff6b6b;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  padding: 0 24rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  border: none;
+  margin: 0;
+}
+
+.contact-btn::after {
+  border: none;
+}
+
+.timeline {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.timeline-item {
+  display: flex;
+  position: relative;
+  padding-left: 40rpx;
+  padding-bottom: 30rpx;
+}
+
+.timeline-item.last {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 15rpx;
+  top: 30rpx;
+  bottom: 0;
+  width: 2rpx;
+  background: #e0e0e0;
+}
+
+.timeline-item.last::before {
+  display: none;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 6rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background: #e0e0e0;
+  border: 4rpx solid #fff;
+  box-shadow: 0 0 0 2rpx #e0e0e0;
+}
+
+.timeline-item.done .timeline-dot {
+  background: #ff6b6b;
+  box-shadow: 0 0 0 2rpx #ff6b6b;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-title {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.timeline-item.done .timeline-title {
+  color: #ff6b6b;
+}
+
+.timeline-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.fee-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 0 30rpx;
+}
+
+.fee-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.fee-row:last-child {
+  border-bottom: none;
+}
+
+.fee-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.fee-value {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.fee-value.discount {
+  color: #4caf50;
+}
+
+.fee-row.total {
+  padding-top: 24rpx;
+  border-bottom: none;
+}
+
+.fee-row.total .fee-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.total-price {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 20rpx 30rpx;
+  display: flex;
+  gap: 16rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.action-btn {
+  flex: 1;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border: none;
+  margin: 0;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn.outline {
+  background: #fff;
+  color: #666;
+  border: 1rpx solid #ddd;
+}
+
+.action-btn.secondary {
+  background: #fff;
+  color: #ff6b6b;
+  border: 1rpx solid #ff6b6b;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: #fff;
+}
+
+.loading {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+}

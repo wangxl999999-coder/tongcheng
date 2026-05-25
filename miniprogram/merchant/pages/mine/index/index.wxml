@@ -1,0 +1,64 @@
+<view class="container">
+  <view class="header">
+    <view class="user-card" wx:if="{{merchantInfo}}">
+      <image class="user-avatar" src="{{merchantInfo.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <view class="user-name">{{merchantInfo.name || '商家用户'}}</view>
+        <view class="user-phone">{{merchantInfo.phone || ''}}</view>
+      </view>
+      <view class="edit-btn" bindtap="onEditInfo">
+        <text>编辑</text>
+      </view>
+    </view>
+
+    <view class="store-brief" wx:if="{{storeInfo}}">
+      <view class="store-name">{{storeInfo.name}}</view>
+      <view class="store-status {{storeInfo.status === 1 ? 'open' : 'close'}}">
+        {{storeInfo.status === 1 ? '营业中' : '已打烊'}}
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-row">
+    <view class="stats-item">
+      <view class="stats-value">¥{{merchantInfo ? merchantInfo.balance : '0.00'}}</view>
+      <view class="stats-label">账户余额</view>
+    </view>
+    <view class="stats-divider"></view>
+    <view class="stats-item">
+      <view class="stats-value">{{merchantInfo ? merchantInfo.order_count : 0}}</view>
+      <view class="stats-label">累计订单</view>
+    </view>
+    <view class="stats-divider"></view>
+    <view class="stats-item">
+      <view class="stats-value">{{storeInfo ? storeInfo.rating : '5.0'}}</view>
+      <view class="stats-label">店铺评分</view>
+    </view>
+  </view>
+
+  <view class="menu-groups">
+    <view class="menu-group" wx:for="{{menuList}}" wx:for-item="group" wx:key="index">
+      <view class="menu-item" wx:for="{{group}}" wx:for-item="item" wx:key="name" data-url="{{item.url}}" bindtap="onMenuTap">
+        <view class="menu-icon">{{item.icon}}</view>
+        <view class="menu-name">{{item.name}}</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="contact-section">
+    <view class="contact-item" bindtap="onContactService">
+      <view class="contact-icon">📞</view>
+      <view class="contact-text">联系客服</view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <view class="version">
+    <text>商家端 v1.0.0</text>
+  </view>
+</view>
