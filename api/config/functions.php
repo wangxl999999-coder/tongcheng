@@ -44,7 +44,7 @@ function createJWT($payload) {
 }
 
 function parseJWT($token) {
-    $config = require 'config.php';
+    $config = require __DIR__ . '/config.php';
     $secret = $config['jwt']['secret'];
     
     $parts = explode('.', $token);

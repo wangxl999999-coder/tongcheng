@@ -46,7 +46,7 @@ function jsonError($msg = '操作失败', $code = 1) {
 }
 
 function getAdminInfo() {
-    $config = require 'config.php';
+    $config = require __DIR__ . '/config.php';
     $prefix = $config['admin']['session_prefix'];
     return $_SESSION[$prefix . 'info'] ?? null;
 }
@@ -71,7 +71,7 @@ function formatDate($timestamp, $format = 'Y-m-d H:i:s') {
 }
 
 function uploadFile($file, $dir = '') {
-    $config = require 'config.php';
+    $config = require __DIR__ . '/config.php';
     $uploadConfig = $config['upload'];
     
     if ($file['error'] !== UPLOAD_ERR_OK) {

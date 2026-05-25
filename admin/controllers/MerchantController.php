@@ -166,15 +166,14 @@ class MerchantController extends BaseController {
         
         $this->db->beginTransaction();
         try {
-            $this->db->update('tc_merchant', [
-                'balance' => 'balance + ' . $changeAmount,
-                'updated_at' => time()
-            ], 'id = :id', ['id' => $id]);
+            $sql = $changeAmount >= 0 ? "UPDATE tc_merchant SET balance = balance + ?, updated_at = ? WHERE id = ?" : "UPDATE tc_merchant SET balance = balance - ?, updated_at = ? WHERE id = ?";
+            $this->db->query($sql, [abs($changeAmount), time(), $id]);
             
             if ($type == 1) {
-                $this->db->update('tc_merchant', [
-                    'total_income' => 'total_income + ' . $amount
-                ], 'id = :id', ['id' => $id]);
+                $this->db->query("UPDATE tc_merchant SET total_income = total_income + ? WHERE id = ?", [
+                    $amount,
+                    $id
+                ]);
             }
             
             $this->db->commit();

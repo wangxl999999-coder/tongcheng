@@ -124,10 +124,7 @@
             </header>
             
             <div class="content-wrapper">
-                <?php 
-                extract($GLOBALS);
-                require_once __DIR__ . '/../' . $_content . '.php'; 
-                ?>
+                <?php require_once __DIR__ . '/../' . $_content . '.php'; ?>
             </div>
         </main>
     </div>

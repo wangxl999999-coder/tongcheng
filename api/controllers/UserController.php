@@ -388,11 +388,12 @@ class UserController extends BaseController {
             $beforeBalance = $user['balance'];
             $afterBalance = $beforeBalance + $amount + $giftAmount;
             
-            $this->db->update('tc_user', [
-                'balance' => $afterBalance,
-                'total_recharge' => 'total_recharge + ' . ($amount + $giftAmount),
-                'updated_at' => time()
-            ], 'id = :id', ['id' => $user['id']]);
+            $this->db->query("UPDATE tc_user SET balance = ?, total_recharge = total_recharge + ?, updated_at = ? WHERE id = ?", [
+                $afterBalance,
+                $amount + $giftAmount,
+                time(),
+                $user['id']
+            ]);
             
             $this->db->insert('tc_balance_log', [
                 'user_id' => $user['id'],

@@ -254,9 +254,10 @@ class OrderController extends BaseController {
             ], 'id = :id', ['id' => $id]);
             
             if ($order['pay_amount'] > 0 && $order['balance_amount'] > 0) {
-                $this->db->update('tc_user', [
-                    'balance' => 'balance + ' . $order['balance_amount']
-                ], 'id = :id', ['id' => $order['user_id']]);
+                $this->db->query("UPDATE tc_user SET balance = balance + ? WHERE id = ?", [
+                    $order['balance_amount'],
+                    $order['user_id']
+                ]);
                 
                 $this->db->insert('tc_balance_log', [
                     'user_id' => $order['user_id'],
@@ -313,28 +314,29 @@ class OrderController extends BaseController {
             ], 'id = :id', ['id' => $id]);
             
             if ($technicianIncome > 0) {
-                $this->db->update('tc_technician', [
-                    'balance' => 'balance + ' . $technicianIncome,
-                    'total_income' => 'total_income + ' . $technicianIncome,
-                    'order_count' => 'order_count + 1'
-                ], 'id = :id', ['id' => $order['technician_id']]);
+                $this->db->query("UPDATE tc_technician SET balance = balance + ?, total_income = total_income + ?, order_count = order_count + 1 WHERE id = ?", [
+                    $technicianIncome,
+                    $technicianIncome,
+                    $order['technician_id']
+                ]);
             }
             
             if ($merchantIncome > 0) {
-                $this->db->update('tc_merchant', [
-                    'balance' => 'balance + ' . $merchantIncome,
-                    'total_income' => 'total_income + ' . $merchantIncome
-                ], 'id = :id', ['id' => $order['merchant_id']]);
+                $this->db->query("UPDATE tc_merchant SET balance = balance + ?, total_income = total_income + ? WHERE id = ?", [
+                    $merchantIncome,
+                    $merchantIncome,
+                    $order['merchant_id']
+                ]);
             }
             
-            $this->db->update('tc_user', [
-                'total_consume' => 'total_consume + ' . $order['pay_amount'],
-                'total_order' => 'total_order + 1'
-            ], 'id = :id', ['id' => $order['user_id']]);
+            $this->db->query("UPDATE tc_user SET total_consume = total_consume + ?, total_order = total_order + 1 WHERE id = ?", [
+                $order['pay_amount'],
+                $order['user_id']
+            ]);
             
-            $this->db->update('tc_service', [
-                'sales' => 'sales + 1'
-            ], 'id = :id', ['id' => $order['service_id']]);
+            $this->db->query("UPDATE tc_service SET sales = sales + 1 WHERE id = ?", [
+                $order['service_id']
+            ]);
             
             $this->db->commit();
             jsonSuccess(null, '订单已完成');

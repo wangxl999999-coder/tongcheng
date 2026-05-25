@@ -380,9 +380,10 @@ class OrderController extends BaseController {
         }
         
         if ($order['balance_amount'] > 0) {
-            $this->db->update('tc_user', [
-                'balance' => 'balance - ' . $order['balance_amount']
-            ], 'id = :id', ['id' => $user['id']]);
+            $this->db->query("UPDATE tc_user SET balance = balance - ? WHERE id = ?", [
+                $order['balance_amount'],
+                $user['id']
+            ]);
             
             $this->db->insert('tc_balance_log', [
                 'user_id' => $user['id'],
@@ -436,9 +437,10 @@ class OrderController extends BaseController {
             ], 'id = :id', ['id' => $id]);
             
             if ($order['balance_amount'] > 0) {
-                $this->db->update('tc_user', [
-                    'balance' => 'balance + ' . $order['balance_amount']
-                ], 'id = :id', ['id' => $user['id']]);
+                $this->db->query("UPDATE tc_user SET balance = balance + ? WHERE id = ?", [
+                    $order['balance_amount'],
+                    $user['id']
+                ]);
                 
                 $this->db->insert('tc_balance_log', [
                     'user_id' => $user['id'],

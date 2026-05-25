@@ -192,15 +192,14 @@ class TechnicianController extends BaseController {
         
         $this->db->beginTransaction();
         try {
-            $this->db->update('tc_technician', [
-                'balance' => 'balance + ' . $changeAmount,
-                'updated_at' => time()
-            ], 'id = :id', ['id' => $id]);
+            $sql = $changeAmount >= 0 ? "UPDATE tc_technician SET balance = balance + ?, updated_at = ? WHERE id = ?" : "UPDATE tc_technician SET balance = balance - ?, updated_at = ? WHERE id = ?";
+            $this->db->query($sql, [abs($changeAmount), time(), $id]);
             
             if ($type == 1) {
-                $this->db->update('tc_technician', [
-                    'total_income' => 'total_income + ' . $amount
-                ], 'id = :id', ['id' => $id]);
+                $this->db->query("UPDATE tc_technician SET total_income = total_income + ? WHERE id = ?", [
+                    $amount,
+                    $id
+                ]);
             }
             
             $this->db->commit();

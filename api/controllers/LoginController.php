@@ -18,7 +18,7 @@ class LoginController extends BaseController {
         $config = require __DIR__ . '/../config/config.php';
         $wechat = $config['wechat'];
         
-        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$wechat['appid']}&secret={$wechat['secret']}&js_code=$code&grant_type=authorization_code";
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $wechat['appid'] . '&secret=' . $wechat['secret'] . '&js_code=' . $code . '&grant_type=authorization_code';
         
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -123,7 +123,7 @@ class LoginController extends BaseController {
         $config = require __DIR__ . '/../config/config.php';
         $wechat = $config['wechat'];
         
-        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$wechat['appid']}&secret={$wechat['secret']}&js_code=$code&grant_type=authorization_code";
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $wechat['appid'] . '&secret=' . $wechat['secret'] . '&js_code=' . $code . '&grant_type=authorization_code';
         
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

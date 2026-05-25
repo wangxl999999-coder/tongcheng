@@ -146,10 +146,8 @@ class UserController extends BaseController {
         
         $this->db->beginTransaction();
         try {
-            $this->db->update('tc_user', [
-                'balance' => 'balance + ' . $changeAmount,
-                'updated_at' => time()
-            ], 'id = :id', ['id' => $id]);
+            $sql = $changeAmount >= 0 ? "UPDATE tc_user SET balance = balance + ?, updated_at = ? WHERE id = ?" : "UPDATE tc_user SET balance = balance - ?, updated_at = ? WHERE id = ?";
+            $this->db->query($sql, [abs($changeAmount), time(), $id]);
             
             $this->db->insert('tc_balance_log', [
                 'user_id' => $id,
